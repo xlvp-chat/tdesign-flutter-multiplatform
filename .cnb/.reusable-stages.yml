@@ -165,3 +165,50 @@
     - !reference [.install-component]
     - !reference [.install-example]
     - !reference [.build-web]
+
+# Desktop 包检查，与 .github/workflows/desktop-packages.yml 同一组命令。
+.desktop-token-codegen:
+  name: token codegen
+  script: cd tools/token_codegen && dart pub get && dart test
+
+.desktop-core:
+  name: analyze + test core
+  script: cd packages/tdesign_flutter_core && flutter pub get && flutter analyze --fatal-infos && flutter test
+
+.desktop-package:
+  name: analyze + test desktop
+  script: cd packages/tdesign_flutter_desktop && flutter pub get && flutter analyze --fatal-infos && flutter test
+
+.desktop-adaptive:
+  name: analyze + test adaptive
+  script: cd packages/tdesign_flutter_adaptive && flutter pub get && flutter analyze --fatal-infos && flutter test
+
+.desktop-gallery:
+  name: analyze + test gallery
+  script: cd examples/desktop_gallery && flutter pub get && flutter analyze --fatal-infos && flutter test
+
+.desktop-332:
+  name: desktop (flutter 3.32.0)
+  docker:
+    image: docker.cnb.cool/liweijie0812/docker/flutter-3.32.0
+    volumes:
+      - /root/.pub-cache:cow
+  stages:
+    - !reference [.desktop-token-codegen]
+    - !reference [.desktop-core]
+    - !reference [.desktop-package]
+    - !reference [.desktop-adaptive]
+    - !reference [.desktop-gallery]
+
+.desktop-latest:
+  name: desktop (flutter latest)
+  docker:
+    image: docker.cnb.cool/liweijie0812/docker/flutter-latest
+    volumes:
+      - /root/.pub-cache:cow
+  stages:
+    - !reference [.desktop-token-codegen]
+    - !reference [.desktop-core]
+    - !reference [.desktop-package]
+    - !reference [.desktop-adaptive]
+    - !reference [.desktop-gallery]

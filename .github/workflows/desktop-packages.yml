@@ -1,0 +1,79 @@
+name: CI / Desktop Packages
+
+on:
+  pull_request:
+    branches: [develop]
+    paths:
+      - "packages/tdesign_flutter_core/**"
+      - "packages/tdesign_flutter_desktop/**"
+      - "packages/tdesign_flutter_adaptive/**"
+      - "tools/token_codegen/**"
+      - "examples/desktop_gallery/**"
+      - ".github/workflows/desktop-packages.yml"
+  push:
+    branches: [develop]
+    paths:
+      - "packages/tdesign_flutter_core/**"
+      - "packages/tdesign_flutter_desktop/**"
+      - "packages/tdesign_flutter_adaptive/**"
+      - "tools/token_codegen/**"
+      - "examples/desktop_gallery/**"
+      - ".github/workflows/desktop-packages.yml"
+
+concurrency:
+  group: desktop-packages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref_name != 'develop' }}
+
+jobs:
+  desktop:
+    name: Desktop / Flutter ${{ matrix.flutter-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        flutter-version:
+          - 3.32.0
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Flutter
+        uses: flutter-actions/setup-flutter@v4
+        with:
+          version: ${{ matrix.flutter-version }}
+          channel: stable
+          cache: true
+          cache-sdk: true
+
+      - name: Token codegen
+        working-directory: ./tools/token_codegen
+        run: |
+          dart pub get
+          dart test
+
+      - name: Analyze + test core
+        working-directory: ./packages/tdesign_flutter_core
+        run: |
+          flutter pub get
+          flutter analyze --fatal-infos
+          flutter test
+
+      - name: Analyze + test desktop
+        working-directory: ./packages/tdesign_flutter_desktop
+        run: |
+          flutter pub get
+          flutter analyze --fatal-infos
+          flutter test
+
+      - name: Analyze + test adaptive
+        working-directory: ./packages/tdesign_flutter_adaptive
+        run: |
+          flutter pub get
+          flutter analyze --fatal-infos
+          flutter test
+
+      - name: Analyze gallery
+        working-directory: ./examples/desktop_gallery
+        run: |
+          flutter pub get
+          flutter analyze --fatal-infos
+          flutter test

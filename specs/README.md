@@ -8,7 +8,7 @@ specs/ 用于记录复杂需求、重构、公共 API 变更和跨目录修复�
 
 ## 非组件 Spec
 
-[工程索引](./engineering/README.md)：6 份独立契约，分别为 Theme、ThemeController、Golden、Demo、CI 和临时发布门槛。
+[工程索引](./engineering/README.md)：工程契约含 Theme、ThemeController、Golden、Demo、CI、临时发布门槛、Desktop 架构基线，以及 Desktop P0 能力。
 
 Theme 的配置职责与 Material 隔离合为一份；Token 运行验证放在该契约的验收文档和 evidence/ 中。索引只描述职责，不代表实现或验收已通过。
 
