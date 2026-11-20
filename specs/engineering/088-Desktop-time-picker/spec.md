@@ -1,6 +1,6 @@
 # Desktop TimePicker
 
-来源：本地 `tdesign-vue-next` 的 `TimePicker` 单值选择。实现在 `packages/tdesign_flutter_desktop`。ADR-002 / ADR-006 仍然适用。
+来源：本地 `tdesign-vue-next` 的 `TimePicker` 单值选择。实现在 `packages/tdesign_flutter_multi_desktop`。ADR-002 / ADR-006 仍然适用。
 
 ## 范围
 

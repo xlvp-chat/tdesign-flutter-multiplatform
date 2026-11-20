@@ -4,7 +4,7 @@ Phase 0 Token PoC for Desktop architecture baseline
 (`specs/engineering/085-Desktop-architecture-baseline`).
 
 Converts TDesign CSS via `css2token` into Dart semantic token sources under
-`packages/tdesign_flutter_core`.
+`packages/tdesign_flutter_multi_core`.
 
 `--demo` keeps the Phase 0 brand / container / primary text / radius values and
 adds the error, warning, and success ramps from tdesign-common

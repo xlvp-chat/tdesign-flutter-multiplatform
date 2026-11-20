@@ -10,10 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tdesign_flutter_core:
-    path: ../../packages/tdesign_flutter_core
-  tdesign_flutter_desktop:
-    path: ../../packages/tdesign_flutter_desktop
+  tdesign_flutter_multi_core:
+    path: ../../packages/tdesign_flutter_multi_core
+  tdesign_flutter_multi_desktop:
+    path: ../../packages/tdesign_flutter_multi_desktop
 
 dev_dependencies:
   flutter_lints: ^1.0.4

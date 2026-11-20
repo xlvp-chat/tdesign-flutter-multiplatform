@@ -1,7 +1,7 @@
 name: token_codegen
 description: >
   PoC generator that turns TDesign CSS / css2token output into Dart token
-  sources for tdesign_flutter_core (Desktop architecture baseline Phase 0).
+  sources for tdesign_flutter_multi_core (Desktop architecture baseline Phase 0).
 version: 0.1.0-dev.0
 publish_to: none
 

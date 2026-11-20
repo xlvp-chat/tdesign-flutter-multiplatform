@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:tdesign_flutter_core/tdesign_flutter_core.dart';
-import 'package:tdesign_flutter_desktop/tdesign_flutter_desktop.dart';
+import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
+import 'package:tdesign_flutter_multi_desktop/tdesign_flutter_multi_desktop.dart';
 
 import '../scaffold.dart';
 

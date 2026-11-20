@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tencent/tdesign-flutter/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/tencent/tdesign-flutter" alt="License">
+  <a href="https://github.com/xlvp-chat/tdesign-flutter-multiplatform/blob/develop/LICENSE">
+    <img src="https://img.shields.io/github/license/xlvp-chat/tdesign-flutter-multiplatform" alt="License">
   </a>
   <a href="https://pub.dev/packages/tdesign_flutter">
     <img src="https://img.shields.io/pub/v/tdesign_flutter" alt="Version">
@@ -14,24 +14,38 @@
   <a href="https://pub.dev/packages/tdesign_flutter/score">
     <img src="https://img.shields.io/pub/dm/tdesign_flutter" alt="Downloads">
   </a>
-  <a href="https://deepwiki.com/Tencent/tdesign-flutter">
-    <img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki">
-  </a>
 </p>
 
 [English](./README.md) | 简体中文
 
-**TDesign Flutter** 是基于腾讯设计体系的跨平台 UI 组件库，使用 Flutter 框架开发，可快速构建美观、一致的移动端/Web 应用，提供丰富的预制组件和主题定制能力，支持 iOS、Android、Web 多端运行。
+**TDesign Flutter Multiplatform** 在既有移动端组件库基础上扩展了桌面端 / Web 能力。仓库保留 Mobile 包（`tdesign_flutter`），并新增共享基础层、Desktop 组件与自适应入口，可在同一 monorepo 中面向 iOS、Android、Web、Windows、macOS 开发。
+
+> Mobile 文档与已发布的 `tdesign_flutter` 仍与上游 [Tencent/tdesign-flutter](https://github.com/Tencent/tdesign-flutter) 对齐。Desktop 三个包的首个稳定版本是 **0.1.0**，对应 git tag [`desktop-v0.1.0`](https://github.com/xlvp-chat/tdesign-flutter-multiplatform/releases/tag/desktop-v0.1.0)。它们仍用 path 依赖（`publish_to: none`），不发布到 pub.dev。
 
 ## 🎉 特性
 
-- 提供遵循 TDesign 设计规范的 Flutter UI 组件库
-- 支持根据 App 设计风格自定义主题
-- 提供常用图标库，支持自定义替换
-- 根据 TDesign 规范定义颜色组（可在 `TColors` 中查看）
-- 通过颜色值声明类实时预览默认颜色效果
+- 遵循 TDesign 设计规范的移动端组件（`tdesign_flutter`）
+- 面向 Windows / macOS / Flutter Web 的桌面端组件（`tdesign_flutter_multi_desktop`）
+- 共享 Token / Overlay / Interaction 基础层（`tdesign_flutter_multi_core`）
+- 按窗口尺寸与输入能力选择 Mobile / Desktop 形态的自适应入口（`tdesign_flutter_multi_adaptive`）
+- 主题定制、图标库与 TDesign 色板（`TColors`）
+
+## 📦 包结构
+
+| 包名 | 路径 | 职责 |
+| ---- | ---- | ---- |
+| `tdesign_flutter` | [`tdesign-component/`](./tdesign-component) | 移动端组件（iOS / Android / Web） |
+| `tdesign_flutter_multi_core` | [`packages/tdesign_flutter_multi_core/`](./packages/tdesign_flutter_multi_core) | 共享 Token、Overlay、Interaction |
+| `tdesign_flutter_multi_desktop` | [`packages/tdesign_flutter_multi_desktop/`](./packages/tdesign_flutter_multi_desktop) | 桌面端 / Web 组件 |
+| `tdesign_flutter_multi_adaptive` | [`packages/tdesign_flutter_multi_adaptive/`](./packages/tdesign_flutter_multi_adaptive) | 自适应入口（`TDesignApp`） |
+
+Desktop 当前覆盖基础、表单、反馈、导航与数据类组件，例如 Button、Input、Select、Cascader、TreeSelect、Date/Time 选择器、Upload、Table、Tree、Menu、Tabs、Dialog 等。完整导出见 [`tdesign_flutter_multi_desktop.dart`](./packages/tdesign_flutter_multi_desktop/lib/tdesign_flutter_multi_desktop.dart)。
+
+Desktop 工程 Spec 见 [`specs/engineering/085`–`095`](./specs/engineering/)。
 
 ## 📱 预览
+
+### 移动端
 
 **Android**：扫描二维码下载预览应用
 
@@ -39,35 +53,61 @@
 
 下载链接：[tdesign-flutter-example.apk](https://tdesign.gtimg.com/flutter/tdesign_flutter_example.apk)
 
-**iOS**：运行项目预览
+**iOS**：运行移动端示例
 
-[https://github.com/Tencent/tdesign-flutter/tree/main/tdesign-component](https://github.com/Tencent/tdesign-flutter/tree/main/tdesign-component)
+```bash
+cd tdesign-component/example
+flutter run
+```
+
+### 桌面端
+
+运行 Desktop Gallery（Windows / macOS / Web）：
+
+```bash
+cd examples/desktop_gallery
+flutter run -d windows   # 或 macos / chrome
+```
 
 ## 🚀 快速开始
 
-从 0.2.7 升级时，请先阅读 [1.0 迁移指南](./tdesign-site/site/docs/migration-0.2.7-to-1.0.md)。1.0 包含不兼容的接口与默认行为变化，不能只替换组件前缀。
-
 要求 Flutter ≥ 3.32.0、Dart ≥ 3.8.0。
+
+### 移动端
+
+从 0.2.7 升级时，请先阅读 [1.0 迁移指南](./tdesign-site/site/docs/migration-0.2.7-to-1.0.md)。
 
 在 `pubspec.yaml` 中添加 `tdesign_flutter: ^1.1.0`，运行 `flutter pub get`。完整接入步骤见[快速开始](./tdesign-site/site/docs/getting-started.md)。
 
-### 最小导入
-
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
-```
 
-TD 入口导出 Flutter Material 组件，可通过同一个入口使用 `MaterialApp`、`Scaffold`、`Text` 和 TDesign 组件。
-
-### 最小使用
-
-将按钮放入已有页面的 Widget 树中：
-
-```dart
 const TButton(child: Text('按钮'))
 ```
 
-无需额外初始化或主题配置。不传 `onPressed` 时，按钮处于禁用状态。
+### 桌面端（path 依赖）
+
+Desktop 相关包尚未发布到 pub.dev，请使用 path 依赖：
+
+```yaml
+dependencies:
+  tdesign_flutter_multi_core:
+    path: packages/tdesign_flutter_multi_core
+  tdesign_flutter_multi_desktop:
+    path: packages/tdesign_flutter_multi_desktop
+  # 可选：自适应壳
+  tdesign_flutter_multi_adaptive:
+    path: packages/tdesign_flutter_multi_adaptive
+```
+
+```dart
+import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
+import 'package:tdesign_flutter_multi_desktop/tdesign_flutter_multi_desktop.dart';
+
+const TButton(child: Text('按钮'))
+```
+
+`tdesign_flutter_multi_desktop` **不会**再导出 Core。需要 Token / Overlay / Interaction 时请单独 import Core。同一应用需按窗口与指针在 Mobile / Desktop 形态间切换时，优先使用 Adaptive 的 `TDesignApp`。
 
 ## 📚 文档
 
@@ -77,10 +117,13 @@ const TButton(child: Text('按钮'))
 - [国际化](./tdesign-site/site/docs/internationalization.md)
 - [常见问题](./tdesign-site/site/docs/faq.md)
 - [在线组件文档](https://tdesign.tencent.com/flutter/overview)
+- [贡献指南](./CONTRIBUTING.md)
+- [Desktop 架构基线](./specs/engineering/085-Desktop-architecture-baseline/spec.md)
 
 ## 🔗 更多示例
 
-更多使用示例请参考 [example/lib/page/](https://github.com/Tencent/tdesign-flutter/tree/develop/tdesign-component/example/lib/page)
+- 移动端：[`tdesign-component/example/lib/page/`](./tdesign-component/example/lib/page)
+- Desktop Gallery：[`examples/desktop_gallery/`](./examples/desktop_gallery)
 
 ## 🌐 TDesign 组件库
 
@@ -94,20 +137,15 @@ TDesign 还提供其他平台和框架的组件库：
 | Vue 3.x 移动端 | [tdesign-mobile-vue](https://github.com/Tencent/tdesign-mobile-vue) |
 | React 移动端 | [tdesign-mobile-react](https://github.com/Tencent/tdesign-mobile-react) |
 | 微信小程序 | [tdesign-miniprogram](https://github.com/Tencent/tdesign-miniprogram) |
+| Flutter（上游） | [tdesign-flutter](https://github.com/Tencent/tdesign-flutter) |
 
 ## 🤝 参与贡献
 
-欢迎贡献代码！请在提交 [Pull Request](https://github.com/Tencent/tdesign-flutter/pulls) 前阅读[贡献指南](https://github.com/Tencent/tdesign-flutter/blob/develop/CONTRIBUTING.md)。
-
-<a href="https://github.com/Tencent/tdesign-flutter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Tencent/tdesign-flutter" />
-</a>
+欢迎贡献代码！请在提交 [Pull Request](https://github.com/xlvp-chat/tdesign-flutter-multiplatform/pulls) 前阅读[贡献指南](./CONTRIBUTING.md)。
 
 ## 💬 交流反馈
 
-创建 [GitHub Issues](https://github.com/Tencent/tdesign-flutter/issues) 或扫描二维码加入用户群：
-
-<img src="https://raw.githubusercontent.com/Tencent/tdesign/main/packages/site-components/src/images/groups/flutter-group.png" width="200" />
+请在本仓库创建 [GitHub Issues](https://github.com/xlvp-chat/tdesign-flutter-multiplatform/issues)。与上游 Mobile 相关的讨论也可前往 [Tencent/tdesign-flutter Issues](https://github.com/Tencent/tdesign-flutter/issues)。
 
 ## 🙏 致谢
 
@@ -119,4 +157,4 @@ TDesign Flutter 依赖以下组件库，感谢作者的开源贡献：
 
 ## 📄 开源协议
 
-TDesign Flutter 遵循 [MIT 协议](https://github.com/Tencent/tdesign-flutter/blob/develop/LICENSE)。
+TDesign Flutter 遵循 [MIT 协议](./LICENSE)。

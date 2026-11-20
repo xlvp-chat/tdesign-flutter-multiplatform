@@ -6,8 +6,8 @@
 
 ```
 tools/token_codegen/          # CSS → css2token → tdesign_tokens.g.dart
-packages/tdesign_flutter_core/lib/src/token/tdesign_tokens.g.dart
-packages/tdesign_flutter_desktop/lib/src/
+packages/tdesign_flutter_multi_core/lib/src/token/tdesign_tokens.g.dart
+packages/tdesign_flutter_multi_desktop/lib/src/
   basic/t_button.dart
   form/t_input.dart
   form/t_select.dart
@@ -50,7 +50,7 @@ Token 与 Core（第 2 步）：
 
 ```bash
 cd tools/token_codegen && dart test
-cd packages/tdesign_flutter_core && flutter analyze --fatal-infos
+cd packages/tdesign_flutter_multi_core && flutter analyze --fatal-infos
 ```
 
 使用 Flutter 3.32.0（Dart 3.8）。本阶段不跑 `examples/desktop_gallery`，也不跑 desktop 包的全量测试。
@@ -58,7 +58,7 @@ cd packages/tdesign_flutter_core && flutter analyze --fatal-infos
 后续组件步骤：
 
 ```bash
-cd packages/tdesign_flutter_desktop && flutter analyze --fatal-infos && flutter test
+cd packages/tdesign_flutter_multi_desktop && flutter analyze --fatal-infos && flutter test
 cd examples/desktop_gallery && flutter analyze --fatal-infos && flutter test
 ```
 

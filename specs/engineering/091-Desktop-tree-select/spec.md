@@ -1,6 +1,6 @@
 # Desktop TreeSelect
 
-来源：本地 `tdesign-vue-next` 的 `TreeSelect` 基础单选。实现在 `packages/tdesign_flutter_desktop`。ADR-002 / ADR-006 仍然适用。面板树复用 [TTree](../089-Desktop-tree/spec.md)。
+来源：本地 `tdesign-vue-next` 的 `TreeSelect` 基础单选。实现在 `packages/tdesign_flutter_multi_desktop`。ADR-002 / ADR-006 仍然适用。面板树复用 [TTree](../089-Desktop-tree/spec.md)。
 
 ## 范围
 

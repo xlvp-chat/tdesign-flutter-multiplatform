@@ -18,7 +18,7 @@
 - [x] Menu `icon`、`theme`、`axis: horizontal`。暗色底用 dark `bgColorContainer`（`#242424`），不另加 `grayColor13`
 - [x] Table 筛选、左右固定列、`childrenOf` + `expandedKeys`
 - [x] 每个能力一条 widget 测试，Gallery 补对应区块
-- [x] `TDesignTokenScope`（`packages/tdesign_flutter_core/lib/src/token/tdesign_token_scope.dart`）。缺省 `TDesignTokens.light`。子树可提供 `TDesignTokens.dark`。Button、Input、Menu 的状态色 / 品牌色 / 文字色 / 容器色从该 scope 读取。Menu `theme: dark` 在菜单子树内提供 dark token set
+- [x] `TDesignTokenScope`（`packages/tdesign_flutter_multi_core/lib/src/token/tdesign_token_scope.dart`）。缺省 `TDesignTokens.light`。子树可提供 `TDesignTokens.dark`。Button、Input、Menu 的状态色 / 品牌色 / 文字色 / 容器色从该 scope 读取。Menu `theme: dark` 在菜单子树内提供 dark token set
 - [x] `bgColorContainerHover`（`--td-bg-color-container-hover`）：light `#F3F3F3`，dark `#2C2C2C`。css2token 语义表没有这个名字，由 `tools/token_codegen` 写入。`defaultTheme` 填充按钮 hover 读它。primary / danger / warning / success 仍是混白 0.08 / 混黑 0.12 / alpha 0.4
 - [x] `textColorAnti`（`--td-text-color-anti`）：light / dark 都是 `#FFFFFF`。Menu 暗色文字读 dark token set 的这个 key
 

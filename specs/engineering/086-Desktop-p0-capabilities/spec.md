@@ -1,6 +1,6 @@
 # Desktop P0 能力补全
 
-挂在 [085 Desktop 架构基线](../085-Desktop-architecture-baseline/spec.md) 上。规格来源仍是 Vue Next 与 tdesign-common（`packages/common/style/web`）。实现留在 `packages/tdesign_flutter_desktop` 与 `packages/tdesign_flutter_core` 的 Token。
+挂在 [085 Desktop 架构基线](../085-Desktop-architecture-baseline/spec.md) 上。规格来源仍是 Vue Next 与 tdesign-common（`packages/common/style/web`）。实现留在 `packages/tdesign_flutter_multi_desktop` 与 `packages/tdesign_flutter_multi_core` 的 Token。
 
 [ADR-002](../085-Desktop-architecture-baseline/spec.md) 与 [ADR-006](../085-Desktop-architecture-baseline/spec.md) 继续有效：语义对齐 Vue / tdesign-common，Dart API 保持 Dart 习惯，不照搬 Vue 签名，不复用 Vue 运行时。Desktop 包保持 `0.x`。不修改 Mobile 组件（`tdesign-component` / `package:tdesign_flutter`）。
 
@@ -28,7 +28,7 @@ Phase 0 已落地 Button、Input、Select、Form、Pagination、Tabs、Menu、Ta
 
 ## 状态色 Token
 
-生成文件：`packages/tdesign_flutter_core/lib/src/token/tdesign_tokens.g.dart`。
+生成文件：`packages/tdesign_flutter_multi_core/lib/src/token/tdesign_tokens.g.dart`。
 
 重新生成（在 `tools/token_codegen`）：
 
@@ -166,7 +166,7 @@ css2token 语义表有 `textColorAnti`，没有 `bgColorContainerHover`。生成
 
 ## Button
 
-文件：`packages/tdesign_flutter_desktop/lib/src/basic/t_button.dart`。
+文件：`packages/tdesign_flutter_multi_desktop/lib/src/basic/t_button.dart`。
 
 现在的 `TButtonVariant` 把主题和形式放在一个枚举里。拆成两轴，并补形状与幽灵：
 
@@ -216,7 +216,7 @@ Gallery 的 Button 页补主题、虚框、幽灵、形状，对应 Vue 的 `the
 
 ## Input
 
-文件：`packages/tdesign_flutter_desktop/lib/src/form/t_input.dart`。左右内边距已按 Vue 补过，本能力不改内边距。
+文件：`packages/tdesign_flutter_multi_desktop/lib/src/form/t_input.dart`。左右内边距已按 Vue 补过，本能力不改内边距。
 
 ```dart
 enum TInputStatus { normal, success, warning, error }
@@ -232,7 +232,7 @@ enum TInputStatus { normal, success, warning, error }
 
 ## Select
 
-文件：`packages/tdesign_flutter_desktop/lib/src/form/t_select.dart`。
+文件：`packages/tdesign_flutter_multi_desktop/lib/src/form/t_select.dart`。
 
 单选 `value` / `onChanged` 保持不变。`multiple` 为 false 时忽略 `values` / `onValuesChanged`。`multiple` 为 true 时以 `values` / `onValuesChanged` 为准，忽略 `value` / `onChanged`。
 
@@ -248,7 +248,7 @@ enum TInputStatus { normal, success, warning, error }
 
 ## Form
 
-文件：`packages/tdesign_flutter_desktop/lib/src/form/t_form.dart`。
+文件：`packages/tdesign_flutter_multi_desktop/lib/src/form/t_form.dart`。
 
 现有 `errorText` 与标签上的 `required` 星号保留。星号只影响展示，不自动变成一条校验规则。`TFormFieldValidator` 继续作为自定义校验的类型：`String? Function(Object? value)`，返回 null 表示通过。
 
@@ -333,7 +333,7 @@ enum TMenuAxis { vertical, horizontal }
 
 ## Table
 
-文件：`packages/tdesign_flutter_desktop/lib/src/data/t_table.dart`。放在 Select 的筛选弹层可用之后。
+文件：`packages/tdesign_flutter_multi_desktop/lib/src/data/t_table.dart`。放在 Select 的筛选弹层可用之后。
 
 ```dart
 enum TTableFixed { left, right }
@@ -377,10 +377,10 @@ enum TTableFilterType { single, multiple, input }
 
 | 标准 | 可观察的预期 | 验证方式与边界 |
 | --- | --- | --- |
-| 状态色来自 codegen | light / dark 的 `errorColor6`、`warningColor5`、`successColor5` 以及上表浅底、disabled、色阶 key 能从 `TDesignTokens.*.colors` 读到；生成文件与 `dart run bin/generate.dart --demo` 一致 | `tools/token_codegen` 的 `dart test`；`tdesign_flutter_core` 的 `flutter analyze --fatal-infos` |
+| 状态色来自 codegen | light / dark 的 `errorColor6`、`warningColor5`、`successColor5` 以及上表浅底、disabled、色阶 key 能从 `TDesignTokens.*.colors` 读到；生成文件与 `dart run bin/generate.dart --demo` 一致 | `tools/token_codegen` 的 `dart test`；`tdesign_flutter_multi_core` 的 `flutter analyze --fatal-infos` |
 | 旧 key 仍在 | `brandColor7`、`bgColorContainer`、`textColorPrimary`、`radiusDefault` 的 PoC 色值不变 | 同上 |
 | 不发明功能色 hover 名 | 生成结果中没有 `errorColorHover`、`warningColorHover`、`successColorHover`、`*ColorLightHover`，也没有 `grayColor13` | token 测试 |
 | 容器 hover 与反色文字 | `bgColorContainerHover` light `#F3F3F3`、dark `#2C2C2C`；`textColorAnti` 两边 `#FFFFFF`。`defaultTheme` 填充 hover 用容器 hover；暗色菜单文字用 dark `textColorAnti` | token 测试；desktop 的 button / menu widget 测试 |
 | 取色 scope | 无 scope 时 Button / Input / Menu 仍是 light。暗色菜单子树读 dark，子组件跟着这条 scope | desktop widget 测试 |
-| 组件契约 | 上文 API 与非目标在后续实现中保持；每个能力一条 widget 测试；Gallery 对应页有 Vue 同名示例区块 | `tdesign_flutter_desktop` 与 `examples/desktop_gallery` 的 `flutter analyze --fatal-infos` 和 `flutter test`。不做 Vue 截图像素对比 |
+| 组件契约 | 上文 API 与非目标在后续实现中保持；每个能力一条 widget 测试；Gallery 对应页有 Vue 同名示例区块 | `tdesign_flutter_multi_desktop` 与 `examples/desktop_gallery` 的 `flutter analyze --fatal-infos` 和 `flutter test`。不做 Vue 截图像素对比 |
 | Mobile 隔离 | `tdesign-component` 组件实现无行为差异 | diff |

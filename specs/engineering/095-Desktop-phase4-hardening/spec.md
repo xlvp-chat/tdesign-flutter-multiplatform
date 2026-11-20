@@ -1,6 +1,6 @@
 # Desktop Phase 4 Hardening — 性能与 API 收敛
 
-挂在 [085 Desktop 架构基线](../085-Desktop-architecture-baseline/spec.md) 的 Phase 4 Hardening 上。规格来源仍是 Vue Next / tdesign-common；实现留在 `packages/tdesign_flutter_desktop`（及必要的 `tdesign_flutter_core`）。ADR-002 / ADR-006 / Desktop `0.x` 继续有效。不修改 Mobile 组件。
+挂在 [085 Desktop 架构基线](../085-Desktop-architecture-baseline/spec.md) 的 Phase 4 Hardening 上。规格来源仍是 Vue Next / tdesign-common；实现留在 `packages/tdesign_flutter_multi_desktop`（及必要的 `tdesign_flutter_multi_core`）。ADR-002 / ADR-006 / Desktop `0.x` 继续有效。不修改 Mobile 组件。
 
 ## 背景与目标
 
@@ -33,7 +33,7 @@ Phase 0–3 已铺开 Desktop 组件与进阶模式。进入内部正式发布 /
 | 多切片受控 | 多块独立状态用 `onXxxChanged`（Table 的 selection / sort / filter / widths / expanded）。 |
 | 公开回调类型 | 多参数公开回调提供顶层 `typedef`（如单元格编辑、行拖拽），避免裸 `void Function(...)` 散落。 |
 | Token 入口 | 绘制色 / 半径读 `TDesignTokenScope.of(context)`；禁止在 build 路径硬编码 `TDesignTokens.light`（测试夹具除外）。遗留硬编码色阶逐步迁到 Token key。 |
-| 库导出 | `tdesign_flutter_desktop.dart` **不再** re-export Core。调用方分别 `import package:tdesign_flutter_desktop/...` 与 `package:tdesign_flutter_core/...`。Core 类型（Token、Overlay、Interaction、Size）只从 Core 导入。 |
+| 库导出 | `tdesign_flutter_multi_desktop.dart` **不再** re-export Core。调用方分别 `import package:tdesign_flutter_multi_desktop/...` 与 `package:tdesign_flutter_multi_core/...`。Core 类型（Token、Overlay、Interaction、Size）只从 Core 导入。 |
 | Breaking | Desktop 仍为 `0.x`：收敛若改名 / 改默认，在本 Spec 兼容性节与 PR 标明；不引入 Mobile 式长废弃期，除非跨包共享符号。 |
 
 #### 首批落地清单（本阶段必须完成）
@@ -46,7 +46,7 @@ Phase 0–3 已铺开 Desktop 组件与进阶模式。进入内部正式发布 /
 
 1. Token 补齐桌面常用语义色（经 `tools/token_codegen`）：`brandColor1` / `brandColorLight`、`componentBorder` / `borderLevel1Color`、`textColorSecondary` / `textColorDisabled`、`bgColorComponentDisabled` 及所需 gray / font 叶子；light / dark 对齐 tdesign-common。
 2. 组件硬编码 `#RRGGBB` 迁到 `TDesignTokenScope` 对应 key（优先 Select、Date/Time、Tree、Cascader、TreeSelect、Input 边框与禁用底；算法混色如 Button lerp 黑白可保留字面量）。
-3. **Breaking（0.x）**：去掉 desktop barrel 对 core 的全量 `export`；本仓库 Gallery / 测试改为双 import，并给 Gallery 增加 `tdesign_flutter_core` path 依赖。
+3. **Breaking（0.x）**：去掉 desktop barrel 对 core 的全量 `export`；本仓库 Gallery / 测试改为双 import，并给 Gallery 增加 `tdesign_flutter_multi_core` path 依赖。
 
 后续批次：其余反馈 / 导航组件残余硬编码色。公开多参数回调已用 `ValueChanged` / 既有 typedef；私有 `void Function` 不提升为公开 typedef。
 
@@ -86,7 +86,7 @@ Phase 0–3 已铺开 Desktop 组件与进阶模式。进入内部正式发布 /
 - typedef 替换：源码兼容；强类型别名可能影响显式类型注解，按编译器提示改为新 typedef 名即可。
 - Token 入口变化：有自定义 `TDesignTokenScope` 的调用方在 Table 上会开始跟随 scope（此前误锁 light）；这是修正，记为 0.x 行为收敛。
 - ListView.builder：无公开 API 变化。
-- 去掉 desktop→core re-export：凡使用 `TDesignTokenScope` / `TOverlayPortal` / `TComponentSize` / `TInteractiveRegion` 等的调用方增加 `import 'package:tdesign_flutter_core/tdesign_flutter_core.dart';`，并在 pubspec 声明 core 依赖（透传依赖不足以保证稳定 API）。
+- 去掉 desktop→core re-export：凡使用 `TDesignTokenScope` / `TOverlayPortal` / `TComponentSize` / `TInteractiveRegion` 等的调用方增加 `import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';`，并在 pubspec 声明 core 依赖（透传依赖不足以保证稳定 API）。
 - 硬编码色迁 Token：选中浅底等改为 `brandColorLight`（common `#f2f3ff`），与旧字面量 `#E7F3FF` 可能有可见差，属对齐 common。
 
 ## 验收标准

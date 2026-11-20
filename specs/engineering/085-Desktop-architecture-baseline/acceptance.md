@@ -17,7 +17,7 @@
 | Gate 条件 | 结论 | 证据 |
 | --- | --- | --- |
 | Token 自动生成 | **Pass** | `tools/token_codegen`：`dart test` 全绿 |
-| Select Overlay / Focus / Keyboard | **Pass** | `tdesign_flutter_desktop/test/t_select_interaction_test.dart` |
+| Select Overlay / Focus / Keyboard | **Pass** | `tdesign_flutter_multi_desktop/test/t_select_interaction_test.dart` |
 | Table typed API | **Pass** | `test/t_table_api_test.dart` |
 | 三包 analyze | **Pass** | core / desktop / adaptive：`No issues found` |
 
@@ -44,9 +44,9 @@ Button, Link, Divider, Space, Tag, Badge, Input, Textarea, InputNumber, Checkbox
 flutter=C:\develop\devtool\flutter-3.32.0\bin\flutter.bat
 
 cd tools/token_codegen && dart test
-cd packages/tdesign_flutter_core && flutter analyze --fatal-infos && flutter test
-cd packages/tdesign_flutter_desktop && flutter analyze --fatal-infos && flutter test
-cd packages/tdesign_flutter_adaptive && flutter analyze --fatal-infos && flutter test
+cd packages/tdesign_flutter_multi_core && flutter analyze --fatal-infos && flutter test
+cd packages/tdesign_flutter_multi_desktop && flutter analyze --fatal-infos && flutter test
+cd packages/tdesign_flutter_multi_adaptive && flutter analyze --fatal-infos && flutter test
 cd examples/desktop_gallery && flutter analyze --fatal-infos
 ```
 

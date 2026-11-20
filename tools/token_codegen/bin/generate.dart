@@ -67,7 +67,7 @@ Future<void> _writeDemo() async {
       '..',
       '..',
       'packages',
-      'tdesign_flutter_core',
+      'tdesign_flutter_multi_core',
       'lib',
       'src',
       'token',
@@ -76,7 +76,7 @@ Future<void> _writeDemo() async {
     p.join(
       Directory.current.path,
       'packages',
-      'tdesign_flutter_core',
+      'tdesign_flutter_multi_core',
       'lib',
       'src',
       'token',

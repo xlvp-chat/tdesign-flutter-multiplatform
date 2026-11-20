@@ -25,10 +25,10 @@
 | 层 | 职责 | 禁止 |
 | --- | --- | --- |
 | Spec/Token | 设计值、API 语义、状态与交互规范 | Flutter 运行时代码 |
-| `tdesign_flutter_core` | Token、Theme、Icon、状态枚举、Interaction、Overlay、Semantics utilities | Mobile/Desktop 业务组件 |
+| `tdesign_flutter_multi_core` | Token、Theme、Icon、状态枚举、Interaction、Overlay、Semantics utilities | Mobile/Desktop 业务组件 |
 | `tdesign_flutter` | 现有 Mobile 组件 | 大量桌面条件分支冒充 Desktop |
-| `tdesign_flutter_desktop` | Desktop/Web 视觉与组件 | DOM/CSS 依赖、大量 OS 判断 |
-| `tdesign_flutter_adaptive` | 按窗口/输入能力选择形态 | 仅按 Platform OS 判断 |
+| `tdesign_flutter_multi_desktop` | Desktop/Web 视觉与组件 | DOM/CSS 依赖、大量 OS 判断 |
+| `tdesign_flutter_multi_adaptive` | 按窗口/输入能力选择形态 | 仅按 Platform OS 判断 |
 
 V1 先在现有 monorepo 的 `packages/` 下落地；API 稳定前不拆独立仓库。
 
@@ -83,10 +83,10 @@ P0 能力的 API、非目标与状态色 Token 见 [086-Desktop-p0-capabilities]
 | 标准 | 可观察的预期 | 验证方式与边界 |
 | --- | --- | --- |
 | ADR 冻结 | ADR-001～008 写入本 Spec 且状态为 Accept | 文档审查 |
-| 包骨架存在 | `packages/tdesign_flutter_core`、`tdesign_flutter_desktop`、`tdesign_flutter_adaptive` 可 `dart pub get` / analyze | 本地命令 |
+| 包骨架存在 | `packages/tdesign_flutter_multi_core`、`tdesign_flutter_multi_desktop`、`tdesign_flutter_multi_adaptive` 可 `dart pub get` / analyze | 本地命令 |
 | PoC Go | Select Overlay/Focus/Keyboard、Token 生成、Table typed API 稳定 | Widget/Interaction 测试 + 手工键盘验收 |
 | Mobile 隔离 | Desktop 实现不修改 Mobile 组件内部行为路径 | Diff / Mobile smoke |
 | Token drift | `tools/token_codegen/common/web-theme.lock.json` 锁定一份 tdesign-vue-next `packages/common` 的 web theme 修订。Desktop demo CSS 里除登记过的 PoC 覆盖外，解析后的颜色与该修订一致 | `tools/token_codegen` 的 `dart test`。升级 common 时用 `dart run bin/lock_common.dart --root <tdesign-vue-next>` 重写锁文件并核对覆盖项 |
-| 指针探测 | `TDesignApp` 在收到鼠标 / 触控板、触摸、手写笔事件后更新 `primaryPointer`。首个按键把键盘标为可用；Flutter 不报告键盘拔出，该标记在本次会话内保持 | `packages/tdesign_flutter_adaptive` widget 测试 |
+| 指针探测 | `TDesignApp` 在收到鼠标 / 触控板、触摸、手写笔事件后更新 `primaryPointer`。首个按键把键盘标为可用；Flutter 不报告键盘拔出，该标记在本次会话内保持 | `packages/tdesign_flutter_multi_adaptive` widget 测试 |
 | Desktop CNB | `.cnb/.reusable-stages.yml` 的 `.desktop-332` / `.desktop-latest` 跑 token codegen、core / desktop / adaptive 的 analyze+test、gallery analyze 与 test。develop push 与 pull_request 引用这两条。CNB 配置没有路径过滤，和 GitHub 的 path filter 不同 | 配置审查。本机不代替 CNB 执行 |
 | Vue 参考页 | `examples/desktop_gallery/visual/vue_reference.lock.json` 锁定 gallery `source` 对应的 Vue Next `_example` 文件名。像素级截图对比仍不做（[086](../086-Desktop-p0-capabilities/spec.md)） | `examples/desktop_gallery` 的 `flutter test` |

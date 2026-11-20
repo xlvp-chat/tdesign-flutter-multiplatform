@@ -1,6 +1,6 @@
 # Desktop Tree
 
-来源：tdesign-vue-next `Tree` 的基础展开 / 高亮 / 勾选。实现在 `packages/tdesign_flutter_desktop`。ADR-002 / ADR-006 仍然适用。
+来源：tdesign-vue-next `Tree` 的基础展开 / 高亮 / 勾选。实现在 `packages/tdesign_flutter_multi_desktop`。ADR-002 / ADR-006 仍然适用。
 
 ## 范围
 

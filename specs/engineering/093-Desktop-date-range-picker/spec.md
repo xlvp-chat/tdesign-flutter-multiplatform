@@ -1,6 +1,6 @@
 # Desktop DateRangePicker
 
-来源：本地 `tdesign-vue-next` 的 `DateRangePicker`（仅日期、无时间）。实现在 `packages/tdesign_flutter_desktop`。ADR-002 / ADR-006 仍然适用。日历格子复用 [DatePicker](../087-Desktop-date-picker/spec.md) 的 `calendarDays` / `weekdayLabels`。
+来源：本地 `tdesign-vue-next` 的 `DateRangePicker`（仅日期、无时间）。实现在 `packages/tdesign_flutter_multi_desktop`。ADR-002 / ADR-006 仍然适用。日历格子复用 [DatePicker](../087-Desktop-date-picker/spec.md) 的 `calendarDays` / `weekdayLabels`。
 
 ## 范围
 

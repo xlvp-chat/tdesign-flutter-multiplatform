@@ -168,17 +168,17 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.1"
-  tdesign_flutter_core:
+  tdesign_flutter_multi_core:
     dependency: "direct main"
     description:
-      path: "../../packages/tdesign_flutter_core"
+      path: "../../packages/tdesign_flutter_multi_core"
       relative: true
     source: path
     version: "0.1.0-dev.0"
-  tdesign_flutter_desktop:
+  tdesign_flutter_multi_desktop:
     dependency: "direct main"
     description:
-      path: "../../packages/tdesign_flutter_desktop"
+      path: "../../packages/tdesign_flutter_multi_desktop"
       relative: true
     source: path
     version: "0.1.0-dev.0"

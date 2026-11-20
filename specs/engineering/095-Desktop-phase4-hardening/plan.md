@@ -3,7 +3,7 @@
 ## 影响范围
 
 - Spec：`specs/engineering/095-Desktop-phase4-hardening/`
-- 代码：`packages/tdesign_flutter_desktop`（优先 `t_table.dart`、`t_select.dart`）
+- 代码：`packages/tdesign_flutter_multi_desktop`（优先 `t_table.dart`、`t_select.dart`）
 - 测试：既有 table / select widget 测试；必要时补大行数滚动
 - Gallery：无强制新页；行为不回归即可
 - 索引：`specs/engineering/README.md`、`085` Phase 4 交叉引用
@@ -18,7 +18,7 @@
 ## 验证
 
 ```bash
-# packages/tdesign_flutter_desktop
+# packages/tdesign_flutter_multi_desktop
 flutter analyze --fatal-infos
 flutter test
 

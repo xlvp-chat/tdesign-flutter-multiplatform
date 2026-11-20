@@ -135,7 +135,7 @@ void main() {
       ),
     );
     final file = File(
-      '../../packages/tdesign_flutter_core/lib/src/token/tdesign_tokens.g.dart',
+      '../../packages/tdesign_flutter_multi_core/lib/src/token/tdesign_tokens.g.dart',
     );
     expect(file.readAsStringSync().replaceAll('\r\n', '\n'), dart);
   });

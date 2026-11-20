@@ -1,6 +1,6 @@
 # Desktop TimeRangePicker
 
-来源：本地 `tdesign-vue-next` 的 `TimeRangePicker`。实现在 `packages/tdesign_flutter_desktop`。ADR-002 / ADR-006 仍然适用。复用 [TTime](../088-Desktop-time-picker/spec.md) / [TTimeSteps]。
+来源：本地 `tdesign-vue-next` 的 `TimeRangePicker`。实现在 `packages/tdesign_flutter_multi_desktop`。ADR-002 / ADR-006 仍然适用。复用 [TTime](../088-Desktop-time-picker/spec.md) / [TTimeSteps]。
 
 ## 范围
 

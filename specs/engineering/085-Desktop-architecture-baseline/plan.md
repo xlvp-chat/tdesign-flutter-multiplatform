@@ -5,9 +5,9 @@
 ```
 packages/
   css2token/                    # 既有 Token 解析，PoC 优先复用/增强
-  tdesign_flutter_core/         # Token / Theme / Interaction / Overlay / Semantics
-  tdesign_flutter_desktop/      # Desktop/Web 组件（Windows/macOS/Web）
-  tdesign_flutter_adaptive/     # 按能力选择 Mobile/Desktop 形态
+  tdesign_flutter_multi_core/         # Token / Theme / Interaction / Overlay / Semantics
+  tdesign_flutter_multi_desktop/      # Desktop/Web 组件（Windows/macOS/Web）
+  tdesign_flutter_multi_adaptive/     # 按能力选择 Mobile/Desktop 形态
 tdesign-component/              # 既有 Mobile（包名 tdesign_flutter），暂不搬迁
 examples/                       # 后续：desktop_gallery / web_gallery（PoC 后补）
 ```

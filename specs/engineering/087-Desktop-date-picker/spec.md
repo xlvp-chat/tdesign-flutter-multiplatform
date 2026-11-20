@@ -1,6 +1,6 @@
 # Desktop DatePicker
 
-来源：tdesign-vue-next `DatePicker` 的单日 `mode=date`。实现在 `packages/tdesign_flutter_desktop`。ADR-002 / ADR-006 仍然适用。
+来源：tdesign-vue-next `DatePicker` 的单日 `mode=date`。实现在 `packages/tdesign_flutter_multi_desktop`。ADR-002 / ADR-006 仍然适用。
 
 ## 范围
 

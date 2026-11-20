@@ -4,18 +4,18 @@ on:
   pull_request:
     branches: [develop]
     paths:
-      - "packages/tdesign_flutter_core/**"
-      - "packages/tdesign_flutter_desktop/**"
-      - "packages/tdesign_flutter_adaptive/**"
+      - "packages/tdesign_flutter_multi_core/**"
+      - "packages/tdesign_flutter_multi_desktop/**"
+      - "packages/tdesign_flutter_multi_adaptive/**"
       - "tools/token_codegen/**"
       - "examples/desktop_gallery/**"
       - ".github/workflows/desktop-packages.yml"
   push:
     branches: [develop]
     paths:
-      - "packages/tdesign_flutter_core/**"
-      - "packages/tdesign_flutter_desktop/**"
-      - "packages/tdesign_flutter_adaptive/**"
+      - "packages/tdesign_flutter_multi_core/**"
+      - "packages/tdesign_flutter_multi_desktop/**"
+      - "packages/tdesign_flutter_multi_adaptive/**"
       - "tools/token_codegen/**"
       - "examples/desktop_gallery/**"
       - ".github/workflows/desktop-packages.yml"
@@ -51,21 +51,21 @@ jobs:
           dart test
 
       - name: Analyze + test core
-        working-directory: ./packages/tdesign_flutter_core
+        working-directory: ./packages/tdesign_flutter_multi_core
         run: |
           flutter pub get
           flutter analyze --fatal-infos
           flutter test
 
       - name: Analyze + test desktop
-        working-directory: ./packages/tdesign_flutter_desktop
+        working-directory: ./packages/tdesign_flutter_multi_desktop
         run: |
           flutter pub get
           flutter analyze --fatal-infos
           flutter test
 
       - name: Analyze + test adaptive
-        working-directory: ./packages/tdesign_flutter_adaptive
+        working-directory: ./packages/tdesign_flutter_multi_adaptive
         run: |
           flutter pub get
           flutter analyze --fatal-infos

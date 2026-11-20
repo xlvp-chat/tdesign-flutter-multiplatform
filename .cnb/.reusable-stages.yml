@@ -173,15 +173,15 @@
 
 .desktop-core:
   name: analyze + test core
-  script: cd packages/tdesign_flutter_core && flutter pub get && flutter analyze --fatal-infos && flutter test
+  script: cd packages/tdesign_flutter_multi_core && flutter pub get && flutter analyze --fatal-infos && flutter test
 
 .desktop-package:
   name: analyze + test desktop
-  script: cd packages/tdesign_flutter_desktop && flutter pub get && flutter analyze --fatal-infos && flutter test
+  script: cd packages/tdesign_flutter_multi_desktop && flutter pub get && flutter analyze --fatal-infos && flutter test
 
 .desktop-adaptive:
   name: analyze + test adaptive
-  script: cd packages/tdesign_flutter_adaptive && flutter pub get && flutter analyze --fatal-infos && flutter test
+  script: cd packages/tdesign_flutter_multi_adaptive && flutter pub get && flutter analyze --fatal-infos && flutter test
 
 .desktop-gallery:
   name: analyze + test gallery
