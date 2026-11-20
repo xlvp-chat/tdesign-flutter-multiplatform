@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
@@ -29,13 +30,13 @@ class TCheckbox extends StatelessWidget {
     final mark = tTokenColorOf(tokens, 'textColorAnti');
     final enabledText = tTokenColorOf(tokens, 'textColorPrimary');
     final disabledText = tTokenColorOf(tokens, 'textColorSecondary');
-    final String glyph;
+    final IconData? markIcon;
     if (indeterminate) {
-      glyph = '—';
+      markIcon = TIcons.minus;
     } else if (checked) {
-      glyph = '✓';
+      markIcon = TIcons.check;
     } else {
-      glyph = '';
+      markIcon = null;
     }
 
     return TInteractiveRegion(
@@ -58,14 +59,13 @@ class TCheckbox extends StatelessWidget {
                 width: 16,
                 height: 16,
                 child: Center(
-                  child: Text(
-                    glyph,
-                    style: TextStyle(
-                      color: active ? mark : null,
-                      fontSize: 11,
-                      height: 1,
-                    ),
-                  ),
+                  child: markIcon == null
+                      ? null
+                      : Icon(
+                          markIcon,
+                          size: 11,
+                          color: active ? mark : null,
+                        ),
                 ),
               ),
             ),

@@ -34,7 +34,7 @@ void main() {
     );
 
     expect(find.text('研发'), findsNothing);
-    await tester.tap(find.text('▸'));
+    await tester.tap(find.byIcon(TIcons.caret_right_small));
     await tester.pump();
     expect(find.text('研发'), findsOneWidget);
     expect(expanded, {'1'});

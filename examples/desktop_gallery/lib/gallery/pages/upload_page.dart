@@ -13,16 +13,22 @@ class UploadDemoPage extends StatefulWidget {
 class _UploadDemoPageState extends State<UploadDemoPage> {
   var _files = <TUploadFile>[];
   var _manual = <TUploadFile>[];
+  var _images = <TUploadFile>[];
   var _counter = 0;
 
-  Future<List<TUploadFile>> _mockPick({bool multiple = false}) async {
+  Future<List<TUploadFile>> _mockPick({
+    bool multiple = false,
+    String extension = 'txt',
+  }) async {
     _counter += 1;
     if (!multiple) {
-      return [TUploadFile(name: 'demo-$_counter.txt', size: 1024)];
+      return [
+        TUploadFile(name: 'demo-$_counter.$extension', size: 1024),
+      ];
     }
     return [
-      TUploadFile(name: 'demo-$_counter-a.txt', size: 1024),
-      TUploadFile(name: 'demo-$_counter-b.txt', size: 2048),
+      TUploadFile(name: 'demo-$_counter-a.$extension', size: 1024),
+      TUploadFile(name: 'demo-$_counter-b.$extension', size: 2048),
     ];
   }
 
@@ -57,6 +63,19 @@ class _UploadDemoPageState extends State<UploadDemoPage> {
             tips: '选择后保持待上传，可点 × 移除',
             pickFiles: () => _mockPick(multiple: true),
             onChanged: (value) => setState(() => _manual = value),
+          ),
+        ),
+        DemoSection(
+          title: '图片卡片上传',
+          child: TUpload(
+            theme: TUploadTheme.image,
+            files: _images,
+            multiple: true,
+            max: 4,
+            tips: '点击添加格（TIcons.add）模拟选择图片',
+            pickFiles: () => _mockPick(extension: 'png'),
+            request: _mockRequest,
+            onChanged: (value) => setState(() => _images = value),
           ),
         ),
       ],

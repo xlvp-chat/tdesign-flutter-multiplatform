@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
@@ -439,7 +440,7 @@ class _OptionRow extends StatelessWidget {
                   ),
                 ),
                 if (!option.isLeaf)
-                  Text('›', style: TextStyle(fontSize: 12, color: secondary)),
+                  Icon(TIcons.chevron_right, size: 12, color: secondary),
               ],
             ),
           ),

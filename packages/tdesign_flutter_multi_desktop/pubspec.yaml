@@ -13,6 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  tdesign_flutter_icons: ^0.0.7
   tdesign_flutter_multi_core:
     path: ../tdesign_flutter_multi_core
 

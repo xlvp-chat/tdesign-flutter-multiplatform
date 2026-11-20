@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
@@ -54,7 +55,8 @@ class TTag extends StatelessWidget {
                 const SizedBox(width: 4),
                 TInteractiveRegion(
                   onActivate: onClose,
-                  builder: (context, state) => const Text('×'),
+                  builder: (context, state) =>
+                      const Icon(TIcons.close, size: 12),
                 ),
               ],
             ],

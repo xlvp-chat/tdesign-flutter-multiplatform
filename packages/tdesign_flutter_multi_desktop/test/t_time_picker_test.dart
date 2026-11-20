@@ -53,7 +53,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('×'));
+    await tester.tap(find.byIcon(TIcons.close));
     await tester.pump();
 
     expect(time, isNull);

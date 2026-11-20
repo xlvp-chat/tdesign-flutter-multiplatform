@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../form/t_checkbox.dart';
@@ -325,13 +326,12 @@ class _TreeRow extends StatelessWidget {
                           behavior: HitTestBehavior.opaque,
                           onTap: onToggleExpand,
                           child: Center(
-                            child: Text(
-                              expanded ? '▾' : '▸',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: textColor,
-                                height: 1,
-                              ),
+                            child: Icon(
+                              expanded
+                                  ? TIcons.caret_down_small
+                                  : TIcons.caret_right_small,
+                              size: 12,
+                              color: textColor,
                             ),
                           ),
                         ),

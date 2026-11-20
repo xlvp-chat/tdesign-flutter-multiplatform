@@ -41,7 +41,7 @@ void main() {
     await tester.tap(find.text('请选择'));
     await tester.pump();
     await tester.pump();
-    await tester.tap(find.text('▸').first);
+    await tester.tap(find.byIcon(TIcons.caret_right_small).first);
     await tester.pump();
     await tester.tap(find.text('深圳市'));
     await tester.pump();
@@ -69,7 +69,7 @@ void main() {
     );
 
     expect(find.text('广州市'), findsOneWidget);
-    await tester.tap(find.text('×'));
+    await tester.tap(find.byIcon(TIcons.close));
     await tester.pump();
     expect(picked, isNull);
   });
@@ -93,7 +93,7 @@ void main() {
     await tester.tap(find.text('请选择'));
     await tester.pump();
     await tester.pump();
-    await tester.tap(find.text('▸').first);
+    await tester.tap(find.byIcon(TIcons.caret_right_small).first);
     await tester.pump();
     await tester.tap(find.text('广州市'));
     await tester.pump();

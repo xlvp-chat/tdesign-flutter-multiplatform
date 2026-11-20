@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
@@ -386,7 +387,11 @@ class _TInputState extends State<TInput> {
           key: const ValueKey<String>('TInput.clear'),
           label: '清空',
           onActivate: _clear,
-          child: Text('×', style: affordanceStyle.copyWith(fontSize: 16)),
+          child: Icon(
+            TIcons.close,
+            size: 16,
+            color: affordanceStyle.color,
+          ),
         ),
       );
     }
@@ -405,7 +410,14 @@ class _TInputState extends State<TInput> {
       trailing.add(Text('${text.length}/$maxLength', style: affordanceStyle));
     }
     final suffix = widget.suffix;
-    if (suffix != null) trailing.add(suffix);
+    if (suffix != null) {
+      trailing.add(
+        IconTheme(
+          data: IconThemeData(color: affordanceStyle.color, size: 14),
+          child: suffix,
+        ),
+      );
+    }
     return [
       for (final item in trailing) ...[const SizedBox(width: 8), item],
     ];

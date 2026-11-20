@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
@@ -776,7 +777,7 @@ class _DragSortRow<T> extends StatelessWidget {
                     width: _dragHandleExtent,
                     height: _pinnedExtent,
                     child: Center(
-                      child: Text('⋮⋮', style: TextStyle(fontSize: 12)),
+                      child: Icon(TIcons.move, size: 12),
                     ),
                   ),
                 ),
@@ -789,7 +790,7 @@ class _DragSortRow<T> extends StatelessWidget {
                   width: _dragHandleExtent,
                   height: _pinnedExtent,
                   child: const Center(
-                    child: Text('⋮⋮', style: TextStyle(fontSize: 12)),
+                    child: Icon(TIcons.move, size: 12),
                   ),
                 ),
               ),
@@ -1155,9 +1156,9 @@ class _ExpandButton extends StatelessWidget {
           width: _treeSlot,
           height: _treeSlot,
           child: Center(
-            child: Text(
-              expanded ? '▾' : '▸',
-              style: const TextStyle(fontSize: 12, height: 1),
+            child: Icon(
+              expanded ? TIcons.caret_down_small : TIcons.caret_right_small,
+              size: 12,
             ),
           ),
         ),

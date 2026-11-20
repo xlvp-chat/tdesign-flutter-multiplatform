@@ -23,6 +23,7 @@
 | [093-Desktop-date-range-picker](./093-Desktop-date-range-picker/spec.md) | Desktop DateRangePicker：双月区间、清空、禁用日期 |
 | [094-Desktop-time-range-picker](./094-Desktop-time-range-picker/spec.md) | Desktop TimeRangePicker：起止双面板、清空 |
 | [095-Desktop-phase4-hardening](./095-Desktop-phase4-hardening/spec.md) | Desktop Phase 4：性能（列表懒构建）与公开 API 收敛 |
+| [096-Desktop-icons-tdesign-flutter-icons](./096-Desktop-icons-tdesign-flutter-icons/spec.md) | Desktop 接入 `tdesign_flutter_icons`：依赖导出与 Unicode affordance 替换 |
 
 Theme 只维护一份配置契约，Material 隔离是其中一章；Token 运行要求归 [Theme 验收](./048-Theme-configuration-contracts/acceptance.md)，报告、截图、审计表归该目录的 `evidence/`，不单设验证 Spec。ThemeController 独立维护输入转换和主题同步链路。
 

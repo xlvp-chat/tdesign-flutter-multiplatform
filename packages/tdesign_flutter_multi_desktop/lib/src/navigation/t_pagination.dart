@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
@@ -245,7 +246,11 @@ class _PageSizeTrigger extends StatelessWidget {
             children: [
               Text(label, style: labelStyle),
               const SizedBox(width: 8),
-              Text('▼', style: labelStyle),
+              Icon(
+                TIcons.caret_down_small,
+                size: labelStyle.fontSize ?? 12,
+                color: labelStyle.color,
+              ),
             ],
           ),
         ),

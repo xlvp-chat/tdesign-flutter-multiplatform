@@ -126,14 +126,14 @@ class ButtonDemoPage extends StatelessWidget {
             children: [
               TButton(
                 theme: TButtonTheme.primary,
-                icon: Text('+'),
+                icon: Icon(TIcons.add),
                 onPressed: _noop,
                 child: Text('新建'),
               ),
               TButton(
                 theme: TButtonTheme.defaultTheme,
                 variant: TButtonVariant.outline,
-                suffix: Text('›'),
+                suffix: Icon(TIcons.chevron_right),
                 onPressed: _noop,
                 child: Text('下一步'),
               ),

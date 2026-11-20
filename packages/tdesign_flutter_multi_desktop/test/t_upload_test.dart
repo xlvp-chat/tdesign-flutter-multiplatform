@@ -54,7 +54,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('×'));
+    await tester.tap(find.byIcon(TIcons.close));
     await tester.pump();
     expect(files, isEmpty);
   });
@@ -98,6 +98,9 @@ void main() {
     );
     expect(find.text('photo.png'), findsOneWidget);
     expect(find.byKey(const ValueKey('TUpload.add')), findsOneWidget);
+    expect(find.byIcon(TIcons.add), findsOneWidget);
+    // Image theme uses the add tile as trigger — no text button.
+    expect(find.text('选择文件'), findsNothing);
   });
 
   testWidgets('file-flow shows the file size', (tester) async {

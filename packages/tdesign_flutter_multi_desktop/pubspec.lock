@@ -168,13 +168,21 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.1"
+  tdesign_flutter_icons:
+    dependency: "direct main"
+    description:
+      name: tdesign_flutter_icons
+      sha256: "9bd2d92c20015e13615d33a254322a8adda62f62c08d5040cb7d4e12a49cb42e"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.7"
   tdesign_flutter_multi_core:
     dependency: "direct main"
     description:
       path: "../tdesign_flutter_multi_core"
       relative: true
     source: path
-    version: "0.1.0-dev.0"
+    version: "0.1.0"
   term_glyph:
     dependency: transitive
     description:

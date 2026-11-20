@@ -90,7 +90,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('×'));
+    await tester.tap(find.byIcon(TIcons.close));
     await tester.pump();
 
     expect(cleared, isTrue);
@@ -125,7 +125,7 @@ void main() {
     await tester.tap(find.text('2026-03-01'));
     await tester.pump();
     await tester.pump();
-    await tester.tap(find.text('›'));
+    await tester.tap(find.byIcon(TIcons.chevron_right));
     await tester.pump();
 
     expect(find.text('2026年 4月'), findsOneWidget);

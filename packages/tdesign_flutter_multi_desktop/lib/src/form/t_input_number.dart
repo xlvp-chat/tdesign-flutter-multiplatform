@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
@@ -41,7 +42,7 @@ class TInputNumber extends StatelessWidget {
           theme: TButtonTheme.defaultTheme,
           variant: TButtonVariant.outline,
           onPressed: enabled ? () => _emit(value - step) : null,
-          child: const Text('-'),
+          child: const Icon(TIcons.minus),
         ),
         const SizedBox(width: 4),
         SizedBox(
@@ -69,7 +70,7 @@ class TInputNumber extends StatelessWidget {
           theme: TButtonTheme.defaultTheme,
           variant: TButtonVariant.outline,
           onPressed: enabled ? () => _emit(value + step) : null,
-          child: const Text('+'),
+          child: const Icon(TIcons.add),
         ),
       ],
     );

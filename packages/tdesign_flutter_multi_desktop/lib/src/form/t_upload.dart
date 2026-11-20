@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
@@ -62,10 +63,12 @@ enum TUploadTheme {
   fileFlow,
 }
 
-/// Desktop upload — `theme=file` list with an injectable picker.
+/// Desktop upload — file rows or image tiles with an injectable picker.
 ///
-/// Spec source: local tdesign-vue-next `Upload`. No built-in HTTP or
-/// `file_picker`; pass [pickFiles] and optional [request].
+/// [TUploadTheme.image] uses square tiles plus an add tile (`TIcons.add`) as
+/// the pick trigger (no text button). Spec source: local tdesign-vue-next
+/// `Upload`. No built-in HTTP or `file_picker`; pass [pickFiles] and optional
+/// [request].
 class TUpload extends StatefulWidget {
   const TUpload({
     super.key,
@@ -171,24 +174,26 @@ class _TUploadState extends State<TUpload> {
     final muted = tTokenColorOf(tokens, 'textColorPlaceholder');
     final fail = tTokenColorOf(tokens, 'errorColor');
     final showSize = widget.theme == TUploadTheme.fileFlow;
+    final imageTheme = widget.theme == TUploadTheme.image;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        TButton(
-          onPressed: widget.enabled && !_busy
-              ? () {
-                  _onTrigger();
-                }
-              : null,
-          child: Text(widget.triggerText),
-        ),
+        if (!imageTheme)
+          TButton(
+            onPressed: widget.enabled && !_busy
+                ? () {
+                    _onTrigger();
+                  }
+                : null,
+            child: Text(widget.triggerText),
+          ),
         if (widget.tips != null) ...[
-          const SizedBox(height: 8),
+          if (!imageTheme) const SizedBox(height: 8),
           Text(widget.tips!, style: TextStyle(fontSize: 12, color: muted)),
         ],
-        if (widget.theme == TUploadTheme.image) ...[
-          const SizedBox(height: 12),
+        if (imageTheme) ...[
+          if (widget.tips != null) const SizedBox(height: 12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -281,7 +286,7 @@ class _FileRow extends StatelessWidget {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: onRemove,
-            child: Text('×', style: TextStyle(fontSize: 14, color: muted)),
+            child: Icon(TIcons.close, size: 14, color: muted),
           ),
         ],
       ],
@@ -320,7 +325,10 @@ class _ImageTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
         ),
         child: file == null
-            ? Text('+', style: TextStyle(fontSize: 20, color: text))
+            ? IconTheme(
+                data: IconThemeData(color: text, size: 20),
+                child: const Icon(TIcons.add),
+              )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -334,7 +342,11 @@ class _ImageTile extends StatelessWidget {
                   if (enabled && onRemove != null)
                     GestureDetector(
                       onTap: onRemove,
-                      child: const Text('×', style: TextStyle(fontSize: 12)),
+                      child: Icon(
+                        TIcons.close,
+                        size: 12,
+                        color: tTokenColorOf(tokens, 'textColorPlaceholder'),
+                      ),
                     ),
                 ],
               ),

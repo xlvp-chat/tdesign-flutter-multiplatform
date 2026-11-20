@@ -11,15 +11,15 @@ bool dateSameDayNullable(DateTime? a, DateTime? b) {
   return dateSameDay(a, b);
 }
 
-/// Compact « ‹ › » control used by date / month / year panels.
+/// Compact calendar navigation control used by date / month / year panels.
 class DateCalendarNavButton extends StatelessWidget {
   const DateCalendarNavButton({
     super.key,
-    required this.label,
+    required this.child,
     required this.onPressed,
   });
 
-  final String label;
+  final Widget child;
   final VoidCallback onPressed;
 
   @override
@@ -29,7 +29,7 @@ class DateCalendarNavButton extends StatelessWidget {
       child: SizedBox(
         width: 28,
         height: 28,
-        child: Center(child: Text(label, style: const TextStyle(fontSize: 16))),
+        child: Center(child: child),
       ),
     );
   }

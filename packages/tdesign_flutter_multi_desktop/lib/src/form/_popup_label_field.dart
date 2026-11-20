@@ -1,10 +1,11 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
 
 /// Shared 32px static label trigger (Cascader / TreeSelect): background, border,
-/// clear (×) or ▾ affordance. Package-internal; not exported from the barrel.
+/// clear or caret affordance. Package-internal; not exported from the barrel.
 class TPopupLabelField extends StatelessWidget {
   const TPopupLabelField({
     super.key,
@@ -66,13 +67,13 @@ class TPopupLabelField extends StatelessWidget {
                 onTap: onClear,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text('×', style: TextStyle(fontSize: 14)),
+                  child: Icon(TIcons.close, size: 14),
                 ),
               )
             else
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Text('▾', style: TextStyle(fontSize: 12)),
+                child: Icon(TIcons.caret_down_small, size: 12),
               ),
           ],
         ),

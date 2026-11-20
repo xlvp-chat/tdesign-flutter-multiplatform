@@ -7,6 +7,8 @@
 /// tokens, overlay, interaction, and size types (Phase 4 / Spec 095).
 library tdesign_flutter_multi_desktop;
 
+export 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart' show TIcons;
+
 export 'src/basic/t_badge.dart';
 export 'src/basic/t_button.dart';
 export 'src/basic/t_divider.dart';

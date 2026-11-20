@@ -1,10 +1,11 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
 
-/// Shared 32px date/time picker trigger with optional [EditableText] and ▾/×.
+/// Shared 32px date/time picker trigger with optional [EditableText] and open/clear icons.
 ///
 /// Package-internal; not exported from the barrel.
 class TPickerEditableField extends StatelessWidget {
@@ -109,7 +110,7 @@ class TPickerEditableField extends StatelessWidget {
                 onTap: onOpen,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6),
-                  child: Text('▾', style: TextStyle(fontSize: 12)),
+                  child: Icon(TIcons.caret_down_small, size: 12),
                 ),
               ),
             if (clearable)
@@ -117,7 +118,7 @@ class TPickerEditableField extends StatelessWidget {
                 onTap: onClear,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text('×', style: TextStyle(fontSize: 16)),
+                  child: Icon(TIcons.close, size: 16),
                 ),
               ),
           ],

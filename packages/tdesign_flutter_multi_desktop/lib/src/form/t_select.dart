@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_tag.dart';
@@ -447,7 +448,9 @@ class _TSelectState<T> extends State<TSelect<T>> {
             value: label,
             enabled: false,
             status: fieldError ? TInputStatus.error : TInputStatus.normal,
-            suffix: Text(_open ? '▲' : '▼'),
+            suffix: Icon(
+              _open ? TIcons.caret_up_small : TIcons.caret_down_small,
+            ),
           ),
         ),
         if (_showClear)
@@ -493,7 +496,15 @@ class _TSelectState<T> extends State<TSelect<T>> {
               ),
               if (_showClear) ...[const SizedBox(width: 8), _clearButton()],
               const SizedBox(width: 8),
-              Text(_open ? '▲' : '▼'),
+              IconTheme(
+                data: IconThemeData(
+                  color: tTokenColorOf(tokens, 'textColorPlaceholder'),
+                  size: 14,
+                ),
+                child: Icon(
+                  _open ? TIcons.caret_up_small : TIcons.caret_down_small,
+                ),
+              ),
             ],
           ),
         ),
@@ -515,7 +526,7 @@ class _TSelectState<T> extends State<TSelect<T>> {
             onPointerDown: (_) => _arm(() => _remove(option)),
             child: const Padding(
               padding: EdgeInsets.only(left: 4),
-              child: Text('×'),
+              child: Icon(TIcons.close, size: 12),
             ),
           ),
         ],
@@ -535,13 +546,10 @@ class _TSelectState<T> extends State<TSelect<T>> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                '×',
-                style: TextStyle(
-                  fontSize: 16,
-                  height: 1,
-                  color: tTokenColor(context, 'textColorPlaceholder'),
-                ),
+              child: Icon(
+                TIcons.close,
+                size: 16,
+                color: tTokenColor(context, 'textColorPlaceholder'),
               ),
             );
           },

@@ -264,11 +264,19 @@ class _MenuDemoPageState extends State<MenuDemoPage> {
                 value: _top,
                 onChanged: (value) => setState(() => _top = value),
                 items: const [
-                  TMenuItem(value: 'home', icon: Text('⌂'), label: Text('首页')),
-                  TMenuItem(value: 'docs', icon: Text('☰'), label: Text('文档')),
+                  TMenuItem(
+                    value: 'home',
+                    icon: Icon(TIcons.home),
+                    label: Text('首页'),
+                  ),
+                  TMenuItem(
+                    value: 'docs',
+                    icon: Icon(TIcons.view_list),
+                    label: Text('文档'),
+                  ),
                   TMenuItem(
                     value: 'user',
-                    icon: Text('☺'),
+                    icon: Icon(TIcons.user),
                     label: Text('个人中心'),
                   ),
                 ],
@@ -283,34 +291,28 @@ class _MenuDemoPageState extends State<MenuDemoPage> {
                   items: const [
                     TMenuItem(
                       value: 'dashboard',
-                      icon: Text(
-                        '●',
-                        style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 12,
-                        ),
+                      icon: Icon(
+                        TIcons.circle,
+                        size: 12,
+                        color: Color(0xFFFFFFFF),
                       ),
                       label: Text('仪表盘'),
                     ),
                     TMenuItem(
                       value: 'resource',
-                      icon: Text(
-                        '●',
-                        style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 12,
-                        ),
+                      icon: Icon(
+                        TIcons.circle,
+                        size: 12,
+                        color: Color(0xFFFFFFFF),
                       ),
                       label: Text('资源列表'),
                     ),
                     TMenuItem(
                       value: 'message',
-                      icon: Text(
-                        '●',
-                        style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 12,
-                        ),
+                      icon: Icon(
+                        TIcons.circle,
+                        size: 12,
+                        color: Color(0xFFFFFFFF),
                       ),
                       label: Text('消息区'),
                     ),

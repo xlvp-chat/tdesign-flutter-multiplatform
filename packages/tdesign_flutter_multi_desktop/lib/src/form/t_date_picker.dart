@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
@@ -368,9 +369,15 @@ class _UnitGridPanel extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  DateCalendarNavButton(label: '«', onPressed: onPrevious),
+                  DateCalendarNavButton(
+                    onPressed: onPrevious,
+                    child: const Icon(TIcons.chevron_left_double, size: 16),
+                  ),
                   Expanded(child: Text(title, textAlign: TextAlign.center)),
-                  DateCalendarNavButton(label: '»', onPressed: onNext),
+                  DateCalendarNavButton(
+                    onPressed: onNext,
+                    child: const Icon(TIcons.chevron_right_double, size: 16),
+                  ),
                 ],
               ),
               for (var row = 0; row < 3; row++)
@@ -498,8 +505,14 @@ class _Panel extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  DateCalendarNavButton(label: '«', onPressed: onPreviousYear),
-                  DateCalendarNavButton(label: '‹', onPressed: onPreviousMonth),
+                  DateCalendarNavButton(
+                    onPressed: onPreviousYear,
+                    child: const Icon(TIcons.chevron_left_double, size: 16),
+                  ),
+                  DateCalendarNavButton(
+                    onPressed: onPreviousMonth,
+                    child: const Icon(TIcons.chevron_left, size: 16),
+                  ),
                   Expanded(
                     child: Text(
                       '${visibleMonth.year}年 ${visibleMonth.month}月',
@@ -507,8 +520,14 @@ class _Panel extends StatelessWidget {
                       style: const TextStyle(fontSize: 14),
                     ),
                   ),
-                  DateCalendarNavButton(label: '›', onPressed: onNextMonth),
-                  DateCalendarNavButton(label: '»', onPressed: onNextYear),
+                  DateCalendarNavButton(
+                    onPressed: onNextMonth,
+                    child: const Icon(TIcons.chevron_right, size: 16),
+                  ),
+                  DateCalendarNavButton(
+                    onPressed: onNextYear,
+                    child: const Icon(TIcons.chevron_right_double, size: 16),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),
