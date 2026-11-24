@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
+import '../basic/t_icon.dart';
 import '../basic/t_tag.dart';
 import '../token/t_token_color.dart';
 import '_popup_shell.dart';
@@ -448,8 +449,9 @@ class _TSelectState<T> extends State<TSelect<T>> {
             value: label,
             enabled: false,
             status: fieldError ? TInputStatus.error : TInputStatus.normal,
-            suffix: Icon(
+            suffix: TIcon(
               _open ? TIcons.caret_up_small : TIcons.caret_down_small,
+              size: TIconSizes.medium,
             ),
           ),
         ),
@@ -496,14 +498,10 @@ class _TSelectState<T> extends State<TSelect<T>> {
               ),
               if (_showClear) ...[const SizedBox(width: 8), _clearButton()],
               const SizedBox(width: 8),
-              IconTheme(
-                data: IconThemeData(
-                  color: tTokenColorOf(tokens, 'textColorPlaceholder'),
-                  size: 14,
-                ),
-                child: Icon(
-                  _open ? TIcons.caret_up_small : TIcons.caret_down_small,
-                ),
+              TIcon(
+                _open ? TIcons.caret_up_small : TIcons.caret_down_small,
+                size: TIconSizes.medium,
+                color: tTokenColorOf(tokens, 'textColorPlaceholder'),
               ),
             ],
           ),
@@ -526,7 +524,7 @@ class _TSelectState<T> extends State<TSelect<T>> {
             onPointerDown: (_) => _arm(() => _remove(option)),
             child: const Padding(
               padding: EdgeInsets.only(left: 4),
-              child: Icon(TIcons.close, size: 12),
+              child: TIcon(TIcons.close, size: TIconSizes.small),
             ),
           ),
         ],
@@ -546,9 +544,9 @@ class _TSelectState<T> extends State<TSelect<T>> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Icon(
-                TIcons.close,
-                size: 16,
+              child: TIcon(
+                TIcons.close_circle_filled,
+                size: TIconSizes.input,
                 color: tTokenColor(context, 'textColorPlaceholder'),
               ),
             );

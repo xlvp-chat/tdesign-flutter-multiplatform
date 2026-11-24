@@ -6,6 +6,7 @@ import 'pages/date_range_picker_page.dart';
 import 'pages/time_picker_page.dart';
 import 'pages/data_pages.dart';
 import 'pages/feedback_pages.dart';
+import 'pages/gap_pages.dart';
 import 'pages/input_pages.dart';
 import 'pages/layout_pages.dart';
 import 'pages/navigation_pages.dart';
@@ -46,6 +47,7 @@ const galleryCategories = <GalleryCategory>[
         create: ButtonDemoPage.new,
       ),
       GalleryComponent(id: 'link', title: 'Link 链接', create: LinkDemoPage.new),
+      GalleryComponent(id: 'avatar', title: 'Avatar 头像', create: AvatarDemoPage.new),
     ],
   ),
   GalleryCategory(
@@ -87,6 +89,16 @@ const galleryCategories = <GalleryCategory>[
         create: PaginationDemoPage.new,
       ),
       GalleryComponent(id: 'tabs', title: 'Tabs 选项卡', create: TabsDemoPage.new),
+      GalleryComponent(
+        id: 'back-top',
+        title: 'BackTop 回到顶部',
+        create: BackTopDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'steps',
+        title: 'Steps 步骤条',
+        create: StepsDemoPage.new,
+      ),
     ],
   ),
   GalleryCategory(
@@ -180,6 +192,43 @@ const galleryCategories = <GalleryCategory>[
         create: TooltipDemoPage.new,
       ),
       GalleryComponent(id: 'tree', title: 'Tree 树', create: TreeDemoPage.new),
+      GalleryComponent(
+        id: 'calendar',
+        title: 'Calendar 日历',
+        create: CalendarDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'collapse',
+        title: 'Collapse 折叠面板',
+        create: CollapseDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'empty',
+        title: 'Empty 空状态',
+        create: EmptyDemoPage.new,
+      ),
+      GalleryComponent(id: 'image', title: 'Image 图片', create: ImageDemoPage.new),
+      GalleryComponent(
+        id: 'progress',
+        title: 'Progress 进度条',
+        create: ProgressDemoPage.new,
+      ),
+      GalleryComponent(id: 'rate', title: 'Rate 评分', create: RateDemoPage.new),
+      GalleryComponent(
+        id: 'skeleton',
+        title: 'Skeleton 骨架屏',
+        create: SkeletonDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'slider',
+        title: 'Slider 滑块',
+        create: SliderDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'swiper',
+        title: 'Swiper 轮播',
+        create: SwiperDemoPage.new,
+      ),
     ],
   ),
   GalleryCategory(
@@ -194,6 +243,26 @@ const galleryCategories = <GalleryCategory>[
         id: 'popover',
         title: 'Popover 弹出层',
         create: PopoverDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'drawer',
+        title: 'Drawer 抽屉',
+        create: DrawerDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'image-viewer',
+        title: 'ImageViewer 图片预览',
+        create: ImageViewerDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'loading',
+        title: 'Loading 加载',
+        create: LoadingDemoPage.new,
+      ),
+      GalleryComponent(
+        id: 'message',
+        title: 'Message 全局提示',
+        create: MessageDemoPage.new,
       ),
     ],
   ),

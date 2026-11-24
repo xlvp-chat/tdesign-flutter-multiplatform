@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
+import '../basic/t_icon.dart';
 import '../form/t_checkbox.dart';
 import '../token/t_token_color.dart';
 
@@ -326,11 +327,11 @@ class _TreeRow extends StatelessWidget {
                           behavior: HitTestBehavior.opaque,
                           onTap: onToggleExpand,
                           child: Center(
-                            child: Icon(
+                            child: TIcon(
                               expanded
                                   ? TIcons.caret_down_small
                                   : TIcons.caret_right_small,
-                              size: 12,
+                              size: TIconSizes.medium,
                               color: textColor,
                             ),
                           ),

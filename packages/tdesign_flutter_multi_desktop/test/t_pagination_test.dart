@@ -53,8 +53,18 @@ Future<void> _pump(
   await tester.pumpAndSettle();
 }
 
+Finder _navFinder(String label) {
+  if (label == '上一页' || label == '下一页') {
+    return find.ancestor(
+      of: find.bySemanticsLabel(label),
+      matching: find.byType(TButton),
+    );
+  }
+  return find.widgetWithText(TButton, label);
+}
+
 TButton _button(WidgetTester tester, String label) {
-  return tester.widget<TButton>(find.widgetWithText(TButton, label));
+  return tester.widget<TButton>(_navFinder(label));
 }
 
 void main() {
@@ -80,7 +90,7 @@ void main() {
     expect(_button(tester, '下一页').onPressed, isNull);
     expect(_button(tester, '3').theme, TButtonTheme.primary);
 
-    await tester.tap(find.widgetWithText(TButton, '上一页'));
+    await tester.tap(_navFinder('上一页'));
     await tester.pumpAndSettle();
     expect(pages, [3, 2]);
   });
@@ -105,7 +115,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(pages, isEmpty);
 
-    await tester.tap(find.widgetWithText(TButton, '下一页'));
+    await tester.tap(_navFinder('下一页'));
     await tester.pumpAndSettle();
     expect(pages, [6]);
   });
@@ -234,7 +244,7 @@ void main() {
 
     expect(find.text('2 / 10'), findsOneWidget);
     expect(find.text('3'), findsNothing);
-    await tester.tap(find.text('下一页'));
+    await tester.tap(_navFinder('下一页'));
     await tester.pump();
     expect(pages, [3]);
     expect(find.text('3 / 10'), findsOneWidget);

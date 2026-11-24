@@ -68,7 +68,7 @@ void main() {
     );
 
     expect(find.text('选项一 / 子选项一'), findsOneWidget);
-    await tester.tap(find.byIcon(TIcons.close));
+    await tester.tap(find.byIcon(TIcons.close_circle_filled));
     await tester.pump();
     expect(picked, isNull);
     expect(find.text('请选择'), findsOneWidget);

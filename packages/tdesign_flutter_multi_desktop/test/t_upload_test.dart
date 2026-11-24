@@ -90,6 +90,7 @@ void main() {
       _host(
         TUpload(
           theme: TUploadTheme.image,
+          multiple: true,
           files: const [TUploadFile(name: 'photo.png')],
           pickFiles: () async => const [],
           onChanged: (_) {},
@@ -97,10 +98,26 @@ void main() {
       ),
     );
     expect(find.text('photo.png'), findsOneWidget);
-    expect(find.byKey(const ValueKey('TUpload.add')), findsOneWidget);
+    expect(find.byKey(const ValueKey<String>('TUpload.add')), findsOneWidget);
     expect(find.byIcon(TIcons.add), findsOneWidget);
     // Image theme uses the add tile as trigger — no text button.
     expect(find.text('选择文件'), findsNothing);
+  });
+
+  testWidgets('image theme hides add when single file is present', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _host(
+        TUpload(
+          theme: TUploadTheme.image,
+          files: const [TUploadFile(name: 'photo.png')],
+          pickFiles: () async => const [],
+          onChanged: (_) {},
+        ),
+      ),
+    );
+    expect(find.byKey(const ValueKey('TUpload.add')), findsNothing);
   });
 
   testWidgets('file-flow shows the file size', (tester) async {

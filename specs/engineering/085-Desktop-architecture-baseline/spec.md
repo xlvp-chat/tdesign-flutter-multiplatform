@@ -75,7 +75,7 @@ P0 能力的 API、非目标与状态色 Token 见 [086-Desktop-p0-capabilities]
 ## 兼容性与迁移
 
 - Desktop 子包以 `0.x` 起步，允许较快演进；核心 API / Theme / Overlay / 命名稳定并完成业务验证后进入 1.0。
-- 现有 Mobile 消费者路径不变；业务可通过 Adaptive 渐进引入。
+- 现有 Mobile 消费者路径不变。Adaptive 只提供窗口/指针 mode，不交换组件；双端靠分产品依赖（[099](../099-Product-dependency-boundary/spec.md)）。
 - Core 抽取不得破坏 Mobile 公开 API；若必须移动符号，须有 migration note。
 
 ## 验收标准

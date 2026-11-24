@@ -3,6 +3,7 @@ import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
+import '../basic/t_icon.dart';
 import '../feedback/t_dropdown.dart';
 import '../form/t_input.dart';
 import '../token/t_token_color.dart';
@@ -194,14 +195,16 @@ List<Widget> _prevNextChildren({
 }) {
   return [
     _stepButton(
-      label: '上一页',
+      semanticLabel: '上一页',
+      icon: TIcons.chevron_left,
       enabled: current > 1,
       onPressed: () => onChanged(current - 1),
     ),
     ...middle,
     SizedBox(width: gap),
     _stepButton(
-      label: '下一页',
+      semanticLabel: '下一页',
+      icon: TIcons.chevron_right,
       enabled: current < pageCount,
       onPressed: () => onChanged(current + 1),
     ),
@@ -209,7 +212,8 @@ List<Widget> _prevNextChildren({
 }
 
 Widget _stepButton({
-  required String label,
+  required String semanticLabel,
+  required IconData icon,
   required bool enabled,
   required VoidCallback onPressed,
 }) {
@@ -218,7 +222,7 @@ Widget _stepButton({
     theme: TButtonTheme.defaultTheme,
     variant: TButtonVariant.outline,
     onPressed: enabled ? onPressed : null,
-    child: Text(label),
+    child: TIcon(icon, semanticLabel: semanticLabel),
   );
 }
 
@@ -246,9 +250,9 @@ class _PageSizeTrigger extends StatelessWidget {
             children: [
               Text(label, style: labelStyle),
               const SizedBox(width: 8),
-              Icon(
+              TIcon(
                 TIcons.caret_down_small,
-                size: labelStyle.fontSize ?? 12,
+                size: TIconSizes.medium,
                 color: labelStyle.color,
               ),
             ],

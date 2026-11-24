@@ -1,7 +1,8 @@
 name: tdesign_flutter_multi_adaptive
 description: >
-  Adaptive entry that selects Mobile or Desktop TDesign components by
-  window size and input capability (not OS alone).
+  Adaptive host signals. Resolves mobile or desktop mode from window size
+  and input capability (not OS alone). Does not depend on Mobile or Desktop
+  component packages (Spec 099).
 version: 0.1.0
 publish_to: none
 homepage: https://github.com/xlvp-chat/tdesign-flutter-multiplatform
@@ -14,10 +15,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tdesign_flutter_multi_core:
-    path: ../tdesign_flutter_multi_core
-  tdesign_flutter_multi_desktop:
-    path: ../tdesign_flutter_multi_desktop
 
 dev_dependencies:
   flutter_lints: ^1.0.4

@@ -53,7 +53,7 @@ void main() {
     );
 
     expect(find.text('08:00 至 18:00'), findsOneWidget);
-    await tester.tap(find.byIcon(TIcons.close));
+    await tester.tap(find.byIcon(TIcons.close_circle_filled));
     await tester.pump();
     expect(range.isEmpty, isTrue);
   });

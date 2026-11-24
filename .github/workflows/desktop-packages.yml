@@ -9,6 +9,8 @@ on:
       - "packages/tdesign_flutter_multi_adaptive/**"
       - "tools/token_codegen/**"
       - "examples/desktop_gallery/**"
+      - "tdesign-component/example/pubspec.yaml"
+      - "tools/check_product_deps.dart"
       - ".github/workflows/desktop-packages.yml"
   push:
     branches: [develop]
@@ -18,6 +20,8 @@ on:
       - "packages/tdesign_flutter_multi_adaptive/**"
       - "tools/token_codegen/**"
       - "examples/desktop_gallery/**"
+      - "tdesign-component/example/pubspec.yaml"
+      - "tools/check_product_deps.dart"
       - ".github/workflows/desktop-packages.yml"
 
 concurrency:
@@ -43,6 +47,9 @@ jobs:
           channel: stable
           cache: true
           cache-sdk: true
+
+      - name: Product dependency keys
+        run: dart tools/check_product_deps.dart
 
       - name: Token codegen
         working-directory: ./tools/token_codegen

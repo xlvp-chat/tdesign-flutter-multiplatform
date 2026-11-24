@@ -12,8 +12,9 @@
 - [max] 为 0 表示不限制；多选追加时截断到剩余名额。
 - 列表展示文件名、状态文案；每项可移除（从列表删除并回调）。
 - [enabled] 为 `false` 时不可选、不可移除。
-- [theme] 默认 `file`，即现有文件名列表。[image] 用宫格：每项一块 72px 方格显示文件名，末尾一块「+」继续选择。[fileFlow] 用表格式行：文件名、大小、状态；`size` 为空显示 `—`。
+- [theme] 默认 `file`，即现有文件名列表。[image] 用 **110px** 卡片：优先渲染 [TUploadFile.preview] / [url] 缩略图，否则占位；末尾 add 格继续选择（达 [max] 或单选已有文件时隐藏）。[fileFlow] 用表格式行：文件名、大小、状态；`size` 为空显示 `—`。
+- image 主题细节与 hover / 状态叠层见 [097](../097-Desktop-icon-affordance-and-upload-card/spec.md)。
 
 ## 非目标
 
-真实 HTTP / `action`、拖拽、`image-flow`、进度模拟定时器、abridgeName、批量整包替换、内置 `file_picker` 依赖。图片格不解码图片字节，只显示文件名。
+真实 HTTP / `action`、拖拽、`image-flow`、进度模拟定时器、abridgeName、批量整包替换、内置 `file_picker` 依赖。默认不强制解码本地字节；有 `preview` / `url` 时渲染缩略图。

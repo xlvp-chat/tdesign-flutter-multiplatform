@@ -3,6 +3,7 @@ import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../token/t_token_color.dart';
+import 't_icon.dart';
 
 enum TTagTheme { defaultTheme, primary, warning, danger, success }
 
@@ -56,7 +57,7 @@ class TTag extends StatelessWidget {
                 TInteractiveRegion(
                   onActivate: onClose,
                   builder: (context, state) =>
-                      const Icon(TIcons.close, size: 12),
+                      const TIcon(TIcons.close, size: TIconSizes.input),
                 ),
               ],
             ],

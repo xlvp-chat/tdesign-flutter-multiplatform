@@ -3,7 +3,11 @@ import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
+import '../basic/t_icon.dart';
 import '../token/t_token_color.dart';
+
+/// Image-theme card edge (logical px). Aligns with Vue Next upload card.
+const double _kUploadImageCard = 110;
 
 /// Upload file status. Aligns with Vue Next `UploadFile.status`.
 enum TUploadFileStatus { waiting, progress, success, fail }
@@ -16,6 +20,7 @@ class TUploadFile {
     this.status = TUploadFileStatus.waiting,
     this.percent,
     this.url,
+    this.preview,
     this.error,
   });
 
@@ -24,6 +29,9 @@ class TUploadFile {
   final TUploadFileStatus status;
   final double? percent;
   final String? url;
+
+  /// Optional injected thumbnail for [TUploadTheme.image].
+  final ImageProvider? preview;
   final String? error;
 
   TUploadFile copyWith({
@@ -32,6 +40,7 @@ class TUploadFile {
     TUploadFileStatus? status,
     double? percent,
     String? url,
+    ImageProvider? preview,
     String? error,
   }) {
     return TUploadFile(
@@ -40,6 +49,7 @@ class TUploadFile {
       status: status ?? this.status,
       percent: percent ?? this.percent,
       url: url ?? this.url,
+      preview: preview ?? this.preview,
       error: error ?? this.error,
     );
   }
@@ -56,7 +66,7 @@ enum TUploadTheme {
   /// File name rows. Default.
   file,
 
-  /// Square tiles plus an add tile. Tiles show the file name, not image bytes.
+  /// 110px image cards with optional [TUploadFile.preview] / [TUploadFile.url].
   image,
 
   /// Name, size, and status rows.
@@ -65,16 +75,17 @@ enum TUploadTheme {
 
 /// Desktop upload — file rows or image tiles with an injectable picker.
 ///
-/// [TUploadTheme.image] uses square tiles plus an add tile (`TIcons.add`) as
-/// the pick trigger (no text button). Spec source: local tdesign-vue-next
-/// `Upload`. No built-in HTTP or `file_picker`; pass [pickFiles] and optional
-/// [request].
+/// [TUploadTheme.image] uses 110px cards plus an add tile (`TIcons.add`) as
+/// the pick trigger (no text button). Prefer [TUploadFile.preview], else [url].
+/// Spec source: local tdesign-vue-next `Upload`. No built-in HTTP or
+/// `file_picker`; pass [pickFiles] and optional [request].
 class TUpload extends StatefulWidget {
   const TUpload({
     super.key,
     required this.files,
     required this.pickFiles,
     this.onChanged,
+    this.onPreview,
     this.request,
     this.autoUpload = true,
     this.multiple = false,
@@ -88,6 +99,9 @@ class TUpload extends StatefulWidget {
   final List<TUploadFile> files;
   final TUploadPickFiles pickFiles;
   final ValueChanged<List<TUploadFile>>? onChanged;
+
+  /// Optional preview action for image-theme hover browse.
+  final ValueChanged<TUploadFile>? onPreview;
   final TUploadRequest? request;
   final bool autoUpload;
   final bool multiple;
@@ -103,6 +117,12 @@ class TUpload extends StatefulWidget {
 
 class _TUploadState extends State<TUpload> {
   var _busy = false;
+
+  bool get _showImageAdd {
+    if (widget.max > 0 && widget.files.length >= widget.max) return false;
+    if (!widget.multiple && widget.files.isNotEmpty) return false;
+    return true;
+  }
 
   Future<void> _onTrigger() async {
     if (!widget.enabled || _busy || widget.onChanged == null) return;
@@ -199,18 +219,22 @@ class _TUploadState extends State<TUpload> {
             runSpacing: 8,
             children: [
               for (var i = 0; i < widget.files.length; i++)
-                _ImageTile(
+                _ImageCard(
                   file: widget.files[i],
                   enabled: widget.enabled,
                   onRemove: () => _removeAt(i),
+                  onPreview: widget.onPreview == null
+                      ? null
+                      : () => widget.onPreview!(widget.files[i]),
                   tokens: tokens,
                 ),
-              _ImageTile(
-                key: const ValueKey<String>('TUpload.add'),
-                enabled: widget.enabled && !_busy,
-                onAdd: _onTrigger,
-                tokens: tokens,
-              ),
+              if (_showImageAdd)
+                _ImageCard(
+                  key: const ValueKey<String>('TUpload.add'),
+                  enabled: widget.enabled && !_busy,
+                  onAdd: _onTrigger,
+                  tokens: tokens,
+                ),
             ],
           ),
         ] else if (widget.files.isNotEmpty) ...[
@@ -286,7 +310,11 @@ class _FileRow extends StatelessWidget {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: onRemove,
-            child: Icon(TIcons.close, size: 14, color: muted),
+            child: TIcon(
+              TIcons.close,
+              size: TIconSizes.input,
+              color: muted,
+            ),
           ),
         ],
       ],
@@ -294,14 +322,15 @@ class _FileRow extends StatelessWidget {
   }
 }
 
-class _ImageTile extends StatelessWidget {
-  const _ImageTile({
+class _ImageCard extends StatefulWidget {
+  const _ImageCard({
     super.key,
     this.file,
     required this.enabled,
     required this.tokens,
     this.onRemove,
     this.onAdd,
+    this.onPreview,
   });
 
   final TUploadFile? file;
@@ -309,47 +338,167 @@ class _ImageTile extends StatelessWidget {
   final TDesignTokenSet tokens;
   final VoidCallback? onRemove;
   final VoidCallback? onAdd;
+  final VoidCallback? onPreview;
+
+  @override
+  State<_ImageCard> createState() => _ImageCardState();
+}
+
+class _ImageCardState extends State<_ImageCard> {
+  var _hover = false;
+
+  static bool _canPreview(TUploadFile file) =>
+      file.status == TUploadFileStatus.waiting ||
+      file.status == TUploadFileStatus.success;
 
   @override
   Widget build(BuildContext context) {
-    final border = tTokenColorOf(tokens, 'componentBorder');
-    final text = tTokenColorOf(tokens, 'textColorPrimary');
-    return GestureDetector(
-      onTap: enabled ? onAdd : null,
-      child: Container(
-        width: 72,
-        height: 72,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(color: border),
-          borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
-        ),
-        child: file == null
-            ? IconTheme(
-                data: IconThemeData(color: text, size: 20),
-                child: const Icon(TIcons.add),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+    final file = widget.file;
+    final border = tTokenColorOf(widget.tokens, 'componentBorder');
+    final text = tTokenColorOf(widget.tokens, 'textColorPrimary');
+    final muted = tTokenColorOf(widget.tokens, 'textColorPlaceholder');
+    final fail = tTokenColorOf(widget.tokens, 'errorColor');
+    final radius = tTokenRadius(widget.tokens);
+    final isAdd = file == null;
+    final showBrowse =
+        !isAdd && widget.onPreview != null && _canPreview(file);
+    final showDelete = !isAdd && widget.onRemove != null;
+    final showHoverMask = !isAdd &&
+        _hover &&
+        widget.enabled &&
+        file.status != TUploadFileStatus.progress &&
+        (showBrowse || showDelete);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MouseRegion(
+          onEnter: (_) => setState(() => _hover = true),
+          onExit: (_) => setState(() => _hover = false),
+          child: GestureDetector(
+            onTap: !widget.enabled
+                ? null
+                : isAdd
+                    ? widget.onAdd
+                    : (showBrowse ? widget.onPreview : null),
+            child: Container(
+              width: _kUploadImageCard,
+              height: _kUploadImageCard,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                border: Border.all(color: border),
+                borderRadius: BorderRadius.circular(radius),
+                color: tTokenColorOf(widget.tokens, 'bgColorContainer'),
+              ),
+              child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  Text(
-                    file!.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 11, color: text),
-                  ),
-                  if (enabled && onRemove != null)
-                    GestureDetector(
-                      onTap: onRemove,
-                      child: Icon(
-                        TIcons.close,
-                        size: 12,
-                        color: tTokenColorOf(tokens, 'textColorPlaceholder'),
+                  if (isAdd)
+                    Center(
+                      child: TIcon(
+                        TIcons.add,
+                        size: TIconSizes.uploadAdd,
+                        color: text,
                       ),
-                    ),
+                    )
+                  else ...[
+                    _thumbnail(file, muted),
+                    if (file.status == TUploadFileStatus.progress ||
+                        file.status == TUploadFileStatus.fail)
+                      ColoredBox(
+                        color: const Color(0x99000000),
+                        child: Center(
+                          child: file.status == TUploadFileStatus.fail
+                              ? TIcon(
+                                  TIcons.error_circle_filled,
+                                  color: fail,
+                                  size: TIconSizes.medium,
+                                )
+                              : Text(
+                                  file.percent == null
+                                      ? '上传中'
+                                      : '${file.percent!.round()}%',
+                                  style: const TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    if (showHoverMask)
+                      ColoredBox(
+                        color: const Color(0x99000000),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (showBrowse)
+                              GestureDetector(
+                                onTap: widget.onPreview,
+                                child: const TIcon(
+                                  TIcons.browse,
+                                  color: Color(0xFFFFFFFF),
+                                  size: TIconSizes.medium,
+                                ),
+                              ),
+                            if (showBrowse && showDelete)
+                              const SizedBox(width: 16),
+                            if (showDelete)
+                              GestureDetector(
+                                onTap: widget.onRemove,
+                                child: const TIcon(
+                                  TIcons.delete,
+                                  color: Color(0xFFFFFFFF),
+                                  size: TIconSizes.medium,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                  ],
                 ],
               ),
+            ),
+          ),
+        ),
+        if (!isAdd) ...[
+          const SizedBox(height: 4),
+          SizedBox(
+            width: _kUploadImageCard,
+            child: Text(
+              file.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12, color: muted),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _thumbnail(TUploadFile file, Color text) {
+    final provider = file.preview;
+    if (provider != null) {
+      return Image(image: provider, fit: BoxFit.contain);
+    }
+    final url = file.url;
+    if (url != null && url.isNotEmpty) {
+      return Image.network(
+        url,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stack) => _imagePlaceholder(text),
+      );
+    }
+    return _imagePlaceholder(text);
+  }
+
+  Widget _imagePlaceholder(Color color) {
+    return Center(
+      child: TIcon(
+        TIcons.image,
+        size: TIconSizes.uploadAdd,
+        color: color,
       ),
     );
   }

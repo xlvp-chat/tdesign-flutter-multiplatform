@@ -167,6 +167,10 @@
     - !reference [.build-web]
 
 # Desktop 包检查，与 .github/workflows/desktop-packages.yml 同一组命令。
+.desktop-product-deps:
+  name: product dependency keys
+  script: dart tools/check_product_deps.dart
+
 .desktop-token-codegen:
   name: token codegen
   script: cd tools/token_codegen && dart pub get && dart test
@@ -194,6 +198,7 @@
     volumes:
       - /root/.pub-cache:cow
   stages:
+    - !reference [.desktop-product-deps]
     - !reference [.desktop-token-codegen]
     - !reference [.desktop-core]
     - !reference [.desktop-package]
@@ -207,6 +212,7 @@
     volumes:
       - /root/.pub-cache:cow
   stages:
+    - !reference [.desktop-product-deps]
     - !reference [.desktop-token-codegen]
     - !reference [.desktop-core]
     - !reference [.desktop-package]

@@ -69,7 +69,7 @@ void main() {
     );
 
     expect(find.text('广州市'), findsOneWidget);
-    await tester.tap(find.byIcon(TIcons.close));
+    await tester.tap(find.byIcon(TIcons.close_circle_filled));
     await tester.pump();
     expect(picked, isNull);
   });

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
+import '../basic/t_icon.dart';
 import '../token/t_token_color.dart';
 import '_text_field_chrome.dart';
 import 't_form.dart';
@@ -387,9 +388,9 @@ class _TInputState extends State<TInput> {
           key: const ValueKey<String>('TInput.clear'),
           label: '清空',
           onActivate: _clear,
-          child: Icon(
-            TIcons.close,
-            size: 16,
+          child: TIcon(
+            TIcons.close_circle_filled,
+            size: TIconSizes.input,
             color: affordanceStyle.color,
           ),
         ),
@@ -401,7 +402,11 @@ class _TInputState extends State<TInput> {
           key: const ValueKey<String>('TInput.obscure'),
           label: _revealed ? '隐藏密码' : '显示密码',
           onActivate: _toggleReveal,
-          child: Text(_revealed ? '隐藏' : '显示', style: affordanceStyle),
+          child: TIcon(
+            _revealed ? TIcons.browse_off : TIcons.browse,
+            size: TIconSizes.input,
+            color: affordanceStyle.color,
+          ),
         ),
       );
     }
@@ -413,7 +418,10 @@ class _TInputState extends State<TInput> {
     if (suffix != null) {
       trailing.add(
         IconTheme(
-          data: IconThemeData(color: affordanceStyle.color, size: 14),
+          data: IconThemeData(
+            color: affordanceStyle.color,
+            size: TIconSizes.medium,
+          ),
           child: suffix,
         ),
       );

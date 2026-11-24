@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
+import '../basic/t_icon.dart';
 import '../token/t_token_color.dart';
 
 /// Shared 32px static label trigger (Cascader / TreeSelect): background, border,
@@ -67,13 +68,19 @@ class TPopupLabelField extends StatelessWidget {
                 onTap: onClear,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Icon(TIcons.close, size: 14),
+                  child: TIcon(
+                    TIcons.close_circle_filled,
+                    size: TIconSizes.input,
+                  ),
                 ),
               )
             else
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Icon(TIcons.caret_down_small, size: 12),
+                child: TIcon(
+                  TIcons.caret_down_small,
+                  size: TIconSizes.medium,
+                ),
               ),
           ],
         ),

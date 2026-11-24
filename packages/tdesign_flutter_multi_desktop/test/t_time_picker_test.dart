@@ -53,7 +53,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byIcon(TIcons.close));
+    await tester.tap(find.byIcon(TIcons.close_circle_filled));
     await tester.pump();
 
     expect(time, isNull);

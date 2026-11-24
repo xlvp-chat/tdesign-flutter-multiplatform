@@ -4,6 +4,7 @@ import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
+import '../basic/t_icon.dart';
 import 't_input.dart';
 
 /// Desktop numeric stepper input — controlled [value] + [onChanged].
@@ -42,7 +43,7 @@ class TInputNumber extends StatelessWidget {
           theme: TButtonTheme.defaultTheme,
           variant: TButtonVariant.outline,
           onPressed: enabled ? () => _emit(value - step) : null,
-          child: const Icon(TIcons.minus),
+          child: const TIcon(TIcons.remove),
         ),
         const SizedBox(width: 4),
         SizedBox(
@@ -70,7 +71,7 @@ class TInputNumber extends StatelessWidget {
           theme: TButtonTheme.defaultTheme,
           variant: TButtonVariant.outline,
           onPressed: enabled ? () => _emit(value + step) : null,
-          child: const Icon(TIcons.add),
+          child: const TIcon(TIcons.add),
         ),
       ],
     );

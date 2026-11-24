@@ -2,6 +2,23 @@
   "revision": "0ea1919c6afc78c6b29808510a18820b437f5e0f",
   "sourceRoot": "tdesign-vue-next/packages/components",
   "pages": {
+    "components/avatar": [
+      "adjust.vue",
+      "base.vue",
+      "group-cascading.vue",
+      "group-max.vue",
+      "group.vue",
+      "shape.vue",
+      "size.vue"
+    ],
+    "components/back-top": [
+      "baseList.vue",
+      "baseListSmall.vue",
+      "custom.vue",
+      "shape.vue",
+      "size.vue",
+      "theme.vue"
+    ],
     "components/badge": [
       "base.vue",
       "custom.vue",
@@ -34,6 +51,23 @@
       "status.vue",
       "theme.vue"
     ],
+    "components/calendar": [
+      "base.vue",
+      "card-cell.vue",
+      "card.vue",
+      "cell-append.vue",
+      "cell.vue",
+      "controller-config.vue",
+      "events.vue",
+      "filter.vue",
+      "first-day-of-week.vue",
+      "head.vue",
+      "mode.vue",
+      "range.vue",
+      "slot-props-api.vue",
+      "value.vue",
+      "week.vue"
+    ],
     "components/cascader": [
       "base.vue",
       "check-strictly.vue",
@@ -60,6 +94,13 @@
       "controlled.vue",
       "group.vue",
       "link.vue"
+    ],
+    "components/collapse": [
+      "base.vue",
+      "icon.vue",
+      "mutex.vue",
+      "other.vue",
+      "rightSlot.vue"
     ],
     "components/date-picker": [
       "base.vue",
@@ -97,6 +138,19 @@
       "text.vue",
       "vertical.vue"
     ],
+    "components/drawer": [
+      "attach-parent.vue",
+      "base.vue",
+      "custom.vue",
+      "destroy.vue",
+      "no-mask.vue",
+      "operation.vue",
+      "placement.vue",
+      "plugin.vue",
+      "popup.vue",
+      "size-draggable.vue",
+      "size.vue"
+    ],
     "components/dropdown": [
       "base.vue",
       "button.vue",
@@ -110,6 +164,14 @@
       "slot.vue",
       "split.vue",
       "theme.vue"
+    ],
+    "components/empty": [
+      "base.vue",
+      "descriptions.vue",
+      "operation.vue",
+      "self-defined.vue",
+      "size.vue",
+      "status.vue"
     ],
     "components/form": [
       "align.vue",
@@ -126,6 +188,29 @@
       "validate-message.vue",
       "validator-status.vue",
       "validator.vue"
+    ],
+    "components/image": [
+      "avif.vue",
+      "extra-always.vue",
+      "extra-hover.vue",
+      "fill-mode.vue",
+      "fill-position.vue",
+      "gallery-cover.vue",
+      "lazy-list.vue",
+      "lazy-single.vue",
+      "placeholder.vue",
+      "shape.vue"
+    ],
+    "components/image-viewer": [
+      "album.vue",
+      "albumIcons.vue",
+      "base.vue",
+      "block.vue",
+      "button.vue",
+      "error.vue",
+      "modeless.vue",
+      "multiple.vue",
+      "svg.vue"
     ],
     "components/input": [
       "addon.vue",
@@ -168,6 +253,20 @@
       "theme.vue",
       "underline.vue"
     ],
+    "components/loading": [
+      "attach.vue",
+      "base.vue",
+      "delay.vue",
+      "directive.vue",
+      "fullscreen.vue",
+      "icon-text.vue",
+      "indicatorSlot.vue",
+      "preventScrollThrough.vue",
+      "service.vue",
+      "size.vue",
+      "text.vue",
+      "wrap.vue"
+    ],
     "components/menu": [
       "closable-side.vue",
       "custom-header.vue",
@@ -185,6 +284,18 @@
       "side-menu-width.vue",
       "single-side.vue",
       "single.vue"
+    ],
+    "components/message": [
+      "base.vue",
+      "close-all.vue",
+      "close.vue",
+      "loading.vue",
+      "offset.vue",
+      "on-close.vue",
+      "placement.vue",
+      "plugin.vue",
+      "toggle.vue",
+      "type.vue"
     ],
     "components/pagination": [
       "base.vue",
@@ -208,12 +319,24 @@
       "trigger.vue",
       "visible.vue"
     ],
+    "components/progress": [
+      "circle.vue",
+      "line.vue"
+    ],
     "components/radio": [
       "base.vue",
       "button.vue",
       "group.vue",
       "size.vue",
       "type.vue"
+    ],
+    "components/rate": [
+      "base.vue",
+      "custom.vue",
+      "icon.vue",
+      "size.vue",
+      "status.vue",
+      "texts.vue"
     ],
     "components/select": [
       "base.vue",
@@ -237,12 +360,50 @@
       "status.vue",
       "virtual-scroll.vue"
     ],
+    "components/skeleton": [
+      "advance.vue",
+      "animation.vue",
+      "base.vue",
+      "delay.vue",
+      "theme.vue"
+    ],
+    "components/slider": [
+      "base.vue",
+      "disabled.vue",
+      "input-number-vertical.vue",
+      "input-number.vue",
+      "marks.vue",
+      "min-and-max.vue",
+      "step.vue",
+      "vertical-marks.vue",
+      "vertical.vue"
+    ],
     "components/space": [
       "align.vue",
       "base.vue",
       "break-line.vue",
       "combination.vue",
       "separator.vue",
+      "size.vue",
+      "vertical.vue"
+    ],
+    "components/steps": [
+      "extra.vue",
+      "icon.vue",
+      "no-sequence.vue",
+      "options.vue",
+      "sequence.vue",
+      "status.vue",
+      "vertical-no-sequence.vue",
+      "vertical-sequence.vue"
+    ],
+    "components/swiper": [
+      "base.vue",
+      "card.vue",
+      "current.vue",
+      "fade.vue",
+      "fraction.vue",
+      "placement.vue",
       "size.vue",
       "vertical.vue"
     ],

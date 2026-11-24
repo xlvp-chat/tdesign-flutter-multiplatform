@@ -24,6 +24,10 @@
 | [094-Desktop-time-range-picker](./094-Desktop-time-range-picker/spec.md) | Desktop TimeRangePicker：起止双面板、清空 |
 | [095-Desktop-phase4-hardening](./095-Desktop-phase4-hardening/spec.md) | Desktop Phase 4：性能（列表懒构建）与公开 API 收敛 |
 | [096-Desktop-icons-tdesign-flutter-icons](./096-Desktop-icons-tdesign-flutter-icons/spec.md) | Desktop 接入 `tdesign_flutter_icons`：依赖导出与 Unicode affordance 替换 |
+| [097-Desktop-icon-affordance-and-upload-card](./097-Desktop-icon-affordance-and-upload-card/spec.md) | Desktop `TIcon`、尺寸约定，以及 Upload image 卡片与 Vue 结构对齐 |
+| [098-Adaptive-button-facade-pilot](./098-Adaptive-button-facade-pilot/spec.md) | 已撤回。原 `AdaptiveButton` 试点，由 [099](./099-Product-dependency-boundary/spec.md) 取代 |
+| [099-Product-dependency-boundary](./099-Product-dependency-boundary/spec.md) | 手机 / 桌面分产品依赖：example 只链 Mobile，gallery 只链 Desktop + Core；Adaptive 不链组件包 |
+| [100-Desktop-mobile-gap-components](./100-Desktop-mobile-gap-components/spec.md) | 桌面补齐手机已有且 Vue Next 有对照、桌面缺失的 16 个组件基础路径 |
 
 Theme 只维护一份配置契约，Material 隔离是其中一章；Token 运行要求归 [Theme 验收](./048-Theme-configuration-contracts/acceptance.md)，报告、截图、审计表归该目录的 `evidence/`，不单设验证 Spec。ThemeController 独立维护输入转换和主题同步链路。
 
