@@ -420,6 +420,14 @@ class _OptionRow extends StatelessWidget {
         } else if (state == TComponentState.hovered) {
           background = hover;
         }
+        final Color labelColor;
+        if (option.disabled) {
+          labelColor = placeholder;
+        } else if (selected) {
+          labelColor = brand;
+        } else {
+          labelColor = primary;
+        }
         return ColoredBox(
           color: background ?? const Color(0x00000000),
           child: Padding(
@@ -429,14 +437,7 @@ class _OptionRow extends StatelessWidget {
                 Expanded(
                   child: Text(
                     label ?? option.label,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: option.disabled
-                          ? placeholder
-                          : selected
-                          ? brand
-                          : primary,
-                    ),
+                    style: TextStyle(fontSize: 14, color: labelColor),
                   ),
                 ),
                 if (!option.isLeaf)

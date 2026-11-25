@@ -503,63 +503,25 @@ class _Panel extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  DateCalendarNavButton(
-                    onPressed: onPreviousYear,
-                    child: const Icon(TIcons.chevron_left_double, size: 16),
-                  ),
-                  DateCalendarNavButton(
-                    onPressed: onPreviousMonth,
-                    child: const Icon(TIcons.chevron_left, size: 16),
-                  ),
-                  Expanded(
-                    child: Text(
-                      '${visibleMonth.year}年 ${visibleMonth.month}月',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  DateCalendarNavButton(
-                    onPressed: onNextMonth,
-                    child: const Icon(TIcons.chevron_right, size: 16),
-                  ),
-                  DateCalendarNavButton(
-                    onPressed: onNextYear,
-                    child: const Icon(TIcons.chevron_right_double, size: 16),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  for (final name in weekdayLabels(firstDayOfWeek))
-                    Expanded(
-                      child: Text(
-                        name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12, color: primary),
-                      ),
-                    ),
-                ],
-              ),
-              for (var week = 0; week < 6; week++)
-                Row(
-                  children: [
-                    for (var i = 0; i < 7; i++)
-                      Expanded(
-                        child: _DayCell(
-                          day: days[week * 7 + i],
-                          visibleMonth: visibleMonth,
-                          selected: selected,
-                          brand: brand,
-                          tokens: tokens,
-                          disabled: _isDisabled(days[week * 7 + i]),
-                          onPick: onPick,
-                        ),
-                      ),
-                  ],
+              ...dateCalendarMonthRows(
+                visibleMonth: visibleMonth,
+                days: days,
+                weekdayNames: weekdayLabels(firstDayOfWeek),
+                weekdayStyle: TextStyle(fontSize: 12, color: primary),
+                onPreviousYear: onPreviousYear,
+                onPreviousMonth: onPreviousMonth,
+                onNextMonth: onNextMonth,
+                onNextYear: onNextYear,
+                dayCell: (day) => _DayCell(
+                  day: day,
+                  visibleMonth: visibleMonth,
+                  selected: selected,
+                  brand: brand,
+                  tokens: tokens,
+                  disabled: _isDisabled(day),
+                  onPick: onPick,
                 ),
+              ),
               if (presets.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),

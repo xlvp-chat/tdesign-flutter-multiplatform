@@ -252,15 +252,15 @@ class _AnchorPlacementDelegate extends SingleChildLayoutDelegate {
       pos = _rawPosition(placement, childSize) + offset;
     }
 
-    // Shift into viewport.
+    // Shift into viewport. When the child is wider or taller than the padded
+    // viewport, clamp to the minimum so the axis still has a valid range.
     final minX = padding.left;
     final minY = padding.top;
     final maxX = viewport.width - padding.right - childSize.width;
     final maxY = viewport.height - padding.bottom - childSize.height;
-    return Offset(
-      pos.dx.clamp(minX, maxX < minX ? minX : maxX),
-      pos.dy.clamp(minY, maxY < minY ? minY : maxY),
-    );
+    final xUpper = maxX < minX ? minX : maxX;
+    final yUpper = maxY < minY ? minY : maxY;
+    return Offset(pos.dx.clamp(minX, xUpper), pos.dy.clamp(minY, yUpper));
   }
 
   Offset _rawPosition(TPlacement placement, Size childSize) {

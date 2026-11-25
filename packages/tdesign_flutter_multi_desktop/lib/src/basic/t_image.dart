@@ -24,10 +24,16 @@ class TImage extends StatelessWidget {
   final BoxFit fit;
   final String? alt;
 
+  ImageProvider? get _provider {
+    if (image != null) return image;
+    final source = src;
+    if (source == null || source.isEmpty) return null;
+    return NetworkImage(source);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final provider = image ??
-        ((src != null && src!.isNotEmpty) ? NetworkImage(src!) : null);
+    final provider = _provider;
     return SizedBox(
       width: width,
       height: height,
@@ -36,7 +42,7 @@ class TImage extends StatelessWidget {
           : Image(
               image: provider,
               fit: fit,
-              errorBuilder: (context, error, stack) => _fallback(context),
+              errorBuilder: (context, error, stackTrace) => _fallback(context),
             ),
     );
   }

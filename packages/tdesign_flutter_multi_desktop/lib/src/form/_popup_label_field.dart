@@ -4,6 +4,7 @@ import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_icon.dart';
 import '../token/t_token_color.dart';
+import '_text_field_chrome.dart';
 
 /// Shared 32px static label trigger (Cascader / TreeSelect): background, border,
 /// clear or caret affordance. Package-internal; not exported from the barrel.
@@ -33,13 +34,7 @@ class TPopupLabelField extends StatelessWidget {
         ? tTokenColorOf(tokens, 'textColorPlaceholder')
         : tTokenColorOf(tokens, 'textColorPrimary');
     return DecoratedBox(
-      decoration: BoxDecoration(
-        color: enabled
-            ? tTokenColorOf(tokens, 'bgColorContainer')
-            : tTokenColorOf(tokens, 'bgColorComponentDisabled'),
-        borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
-        border: Border.all(color: tTokenColorOf(tokens, 'componentBorder')),
-      ),
+      decoration: tStaticFieldChrome(tokens, enabled: enabled),
       child: SizedBox(
         height: 32,
         child: Row(

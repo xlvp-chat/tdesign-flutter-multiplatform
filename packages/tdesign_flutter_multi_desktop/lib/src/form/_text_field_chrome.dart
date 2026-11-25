@@ -20,7 +20,24 @@ Color tTextFieldBorderColor(
 
 /// Enabled / disabled fill for single- and multiline text fields.
 Color tTextFieldFillColor(TDesignTokenSet tokens, {required bool enabled}) {
-  return enabled
-      ? tTokenColorOf(tokens, 'bgColorContainer')
-      : tTokenColorOf(tokens, 'bgColorComponentDisabled');
+  if (enabled) return tTokenColorOf(tokens, 'bgColorContainer');
+  return tTokenColorOf(tokens, 'bgColorComponentDisabled');
+}
+
+/// Fill, radius, and a 1px border shared by text fields and popup triggers.
+///
+/// [borderColor] defaults to `componentBorder`. Callers pass a status or
+/// error color when the border is not the resting token.
+BoxDecoration tStaticFieldChrome(
+  TDesignTokenSet tokens, {
+  required bool enabled,
+  Color? borderColor,
+}) {
+  return BoxDecoration(
+    color: tTextFieldFillColor(tokens, enabled: enabled),
+    borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
+    border: Border.all(
+      color: borderColor ?? tTokenColorOf(tokens, 'componentBorder'),
+    ),
+  );
 }

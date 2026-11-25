@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_button.dart';
@@ -507,74 +506,28 @@ class _MonthPanel extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                DateCalendarNavButton(
-                  onPressed: onPreviousYear,
-                  child: const Icon(TIcons.chevron_left_double, size: 16),
-                ),
-                DateCalendarNavButton(
-                  onPressed: onPreviousMonth,
-                  child: const Icon(TIcons.chevron_left, size: 16),
-                ),
-                Expanded(
-                  child: Text(
-                    '${visibleMonth.year}年 ${visibleMonth.month}月',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ),
-                DateCalendarNavButton(
-                  onPressed: onNextMonth,
-                  child: const Icon(TIcons.chevron_right, size: 16),
-                ),
-                DateCalendarNavButton(
-                  onPressed: onNextYear,
-                  child: const Icon(TIcons.chevron_right_double, size: 16),
-                ),
-              ],
+          children: dateCalendarMonthRows(
+            visibleMonth: visibleMonth,
+            days: days,
+            weekdayNames: weekdayLabels(firstDayOfWeek),
+            weekdayStyle: const TextStyle(fontSize: 12),
+            onPreviousYear: onPreviousYear,
+            onPreviousMonth: onPreviousMonth,
+            onNextMonth: onNextMonth,
+            onNextYear: onNextYear,
+            dayCell: (day) => _DayCell(
+              day: day,
+              visibleMonth: visibleMonth,
+              rangeStart: rangeStart,
+              rangeEnd: rangeEnd,
+              brand: brand,
+              tokens: tokens,
+              disabled:
+                  disableDate?.call(DateTime(day.year, day.month, day.day)) ??
+                  false,
+              onPick: onPick,
             ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                for (final name in weekdayLabels(firstDayOfWeek))
-                  Expanded(
-                    child: Text(
-                      name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
-              ],
-            ),
-            for (var week = 0; week < 6; week++)
-              Row(
-                children: [
-                  for (var i = 0; i < 7; i++)
-                    Expanded(
-                      child: _DayCell(
-                        day: days[week * 7 + i],
-                        visibleMonth: visibleMonth,
-                        rangeStart: rangeStart,
-                        rangeEnd: rangeEnd,
-                        brand: brand,
-                        tokens: tokens,
-                        disabled:
-                            disableDate?.call(
-                              DateTime(
-                                days[week * 7 + i].year,
-                                days[week * 7 + i].month,
-                                days[week * 7 + i].day,
-                              ),
-                            ) ??
-                            false,
-                        onPick: onPick,
-                      ),
-                    ),
-                ],
-              ),
-          ],
+          ),
         ),
       ),
     );

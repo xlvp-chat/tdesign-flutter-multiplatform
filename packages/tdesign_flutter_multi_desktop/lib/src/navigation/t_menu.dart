@@ -311,12 +311,16 @@ class _MenuEntry extends StatelessWidget {
       builder: (context, state) {
         final hovered = state == TComponentState.hovered;
         final color = selected ? palette.brand : palette.text;
+        final Color background;
+        if (selected) {
+          background = palette.selectedBackground;
+        } else if (hovered) {
+          background = palette.hoverBackground;
+        } else {
+          background = const Color(0x00000000);
+        }
         return ColoredBox(
-          color: selected
-              ? palette.selectedBackground
-              : hovered
-              ? palette.hoverBackground
-              : const Color(0x00000000),
+          color: background,
           child: Padding(
             padding: EdgeInsets.fromLTRB(16.0 + depth * 12, 10, 16, 10),
             child: Row(

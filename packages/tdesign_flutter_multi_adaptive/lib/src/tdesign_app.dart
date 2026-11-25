@@ -74,13 +74,17 @@ class _TDesignAppState extends State<TDesignApp> {
     final desktopMin = widget.resolver.desktopMinWidth;
     // Tablet band is 2/3 of desktopMin (600 when desktopMin is 900).
     final tabletMin = desktopMin * 2 / 3;
+    final String breakpoint;
+    if (size.width >= desktopMin) {
+      breakpoint = 'desktop';
+    } else if (size.width >= tabletMin) {
+      breakpoint = 'tablet';
+    } else {
+      breakpoint = 'mobile';
+    }
     final adaptiveContext = AdaptiveContext(
       windowSize: size,
-      breakpoint: size.width >= desktopMin
-          ? 'desktop'
-          : size.width >= tabletMin
-          ? 'tablet'
-          : 'mobile',
+      breakpoint: breakpoint,
       primaryPointer: _pointer,
       keyboardAvailable: _keyboard,
       density: widget.density,

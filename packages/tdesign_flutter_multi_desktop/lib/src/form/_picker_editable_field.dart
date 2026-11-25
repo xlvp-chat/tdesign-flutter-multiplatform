@@ -5,6 +5,7 @@ import 'package:tdesign_flutter_multi_core/tdesign_flutter_multi_core.dart';
 
 import '../basic/t_icon.dart';
 import '../token/t_token_color.dart';
+import '_text_field_chrome.dart';
 
 /// Shared 32px date/time picker trigger with optional [EditableText] and open/clear icons.
 ///
@@ -58,12 +59,10 @@ class TPickerEditableField extends StatelessWidget {
     final border = tTokenColorOf(tokens, 'componentBorder');
     final showOpen = alwaysShowOpen || allowInput;
     return DecoratedBox(
-      decoration: BoxDecoration(
-        color: enabled
-            ? tTokenColorOf(tokens, 'bgColorContainer')
-            : tTokenColorOf(tokens, 'bgColorComponentDisabled'),
-        borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
-        border: Border.all(color: border),
+      decoration: tStaticFieldChrome(
+        tokens,
+        enabled: enabled,
+        borderColor: border,
       ),
       child: SizedBox(
         height: 32,

@@ -9,6 +9,9 @@ import '../token/t_token_color.dart';
 /// Image-theme card edge (logical px). Aligns with Vue Next upload card.
 const double _kUploadImageCard = 110;
 
+const Color _kUploadMask = Color(0x99000000);
+const Color _kUploadMaskForeground = Color(0xFFFFFFFF);
+
 /// Upload file status. Aligns with Vue Next `UploadFile.status`.
 enum TUploadFileStatus { waiting, progress, success, fail }
 
@@ -166,27 +169,6 @@ class _TUploadState extends State<TUpload> {
     widget.onChanged!(next);
   }
 
-  String _sizeLabel(TUploadFile file) {
-    final size = file.size;
-    if (size == null) return '—';
-    if (size < 1024) return '$size B';
-    return '${(size / 1024).toStringAsFixed(1)} KB';
-  }
-
-  String _statusLabel(TUploadFile file) {
-    switch (file.status) {
-      case TUploadFileStatus.waiting:
-        return '待上传';
-      case TUploadFileStatus.progress:
-        final percent = file.percent;
-        return percent == null ? '上传中' : '上传中 ${percent.round()}%';
-      case TUploadFileStatus.success:
-        return '上传成功';
-      case TUploadFileStatus.fail:
-        return file.error ?? '上传失败';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final tokens = TDesignTokenScope.of(context);
@@ -201,11 +183,7 @@ class _TUploadState extends State<TUpload> {
       children: [
         if (!imageTheme)
           TButton(
-            onPressed: widget.enabled && !_busy
-                ? () {
-                    _onTrigger();
-                  }
-                : null,
+            onPressed: widget.enabled && !_busy ? () => _onTrigger() : null,
             child: Text(widget.triggerText),
           ),
         if (widget.tips != null) ...[
@@ -249,8 +227,6 @@ class _TUploadState extends State<TUpload> {
                 text: text,
                 muted: muted,
                 fail: fail,
-                sizeLabel: _sizeLabel(widget.files[i]),
-                statusLabel: _statusLabel(widget.files[i]),
                 onRemove: () => _removeAt(i),
               ),
             ),
@@ -268,8 +244,6 @@ class _FileRow extends StatelessWidget {
     required this.text,
     required this.muted,
     required this.fail,
-    required this.sizeLabel,
-    required this.statusLabel,
     required this.onRemove,
   });
 
@@ -279,12 +253,33 @@ class _FileRow extends StatelessWidget {
   final Color text;
   final Color muted;
   final Color fail;
-  final String sizeLabel;
-  final String statusLabel;
   final VoidCallback onRemove;
+
+  String get _sizeLabel {
+    final size = file.size;
+    if (size == null) return '—';
+    if (size < 1024) return '$size B';
+    return '${(size / 1024).toStringAsFixed(1)} KB';
+  }
+
+  String get _statusLabel {
+    switch (file.status) {
+      case TUploadFileStatus.waiting:
+        return '待上传';
+      case TUploadFileStatus.progress:
+        final percent = file.percent;
+        if (percent == null) return '上传中';
+        return '上传中 ${percent.round()}%';
+      case TUploadFileStatus.success:
+        return '上传成功';
+      case TUploadFileStatus.fail:
+        return file.error ?? '上传失败';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final statusColor = file.status == TUploadFileStatus.fail ? fail : muted;
     return Row(
       children: [
         Expanded(
@@ -294,27 +289,17 @@ class _FileRow extends StatelessWidget {
           SizedBox(
             width: 72,
             child: Text(
-              sizeLabel,
+              _sizeLabel,
               style: TextStyle(fontSize: 12, color: muted),
             ),
           ),
-        Text(
-          statusLabel,
-          style: TextStyle(
-            fontSize: 12,
-            color: file.status == TUploadFileStatus.fail ? fail : muted,
-          ),
-        ),
+        Text(_statusLabel, style: TextStyle(fontSize: 12, color: statusColor)),
         if (enabled) ...[
           const SizedBox(width: 8),
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: onRemove,
-            child: TIcon(
-              TIcons.close,
-              size: TIconSizes.input,
-              color: muted,
-            ),
+            child: TIcon(TIcons.close, size: TIconSizes.input, color: muted),
           ),
         ],
       ],
@@ -354,20 +339,12 @@ class _ImageCardState extends State<_ImageCard> {
   @override
   Widget build(BuildContext context) {
     final file = widget.file;
-    final border = tTokenColorOf(widget.tokens, 'componentBorder');
-    final text = tTokenColorOf(widget.tokens, 'textColorPrimary');
-    final muted = tTokenColorOf(widget.tokens, 'textColorPlaceholder');
-    final fail = tTokenColorOf(widget.tokens, 'errorColor');
-    final radius = tTokenRadius(widget.tokens);
-    final isAdd = file == null;
-    final showBrowse =
-        !isAdd && widget.onPreview != null && _canPreview(file);
-    final showDelete = !isAdd && widget.onRemove != null;
-    final showHoverMask = !isAdd &&
-        _hover &&
-        widget.enabled &&
-        file.status != TUploadFileStatus.progress &&
-        (showBrowse || showDelete);
+    final tokens = widget.tokens;
+    final border = tTokenColorOf(tokens, 'componentBorder');
+    final text = tTokenColorOf(tokens, 'textColorPrimary');
+    final muted = tTokenColorOf(tokens, 'textColorPlaceholder');
+    final fail = tTokenColorOf(tokens, 'errorColor');
+    final radius = tTokenRadius(tokens);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -376,11 +353,7 @@ class _ImageCardState extends State<_ImageCard> {
           onEnter: (_) => setState(() => _hover = true),
           onExit: (_) => setState(() => _hover = false),
           child: GestureDetector(
-            onTap: !widget.enabled
-                ? null
-                : isAdd
-                    ? widget.onAdd
-                    : (showBrowse ? widget.onPreview : null),
+            onTap: _cardTap(file),
             child: Container(
               width: _kUploadImageCard,
               height: _kUploadImageCard,
@@ -388,12 +361,12 @@ class _ImageCardState extends State<_ImageCard> {
               decoration: BoxDecoration(
                 border: Border.all(color: border),
                 borderRadius: BorderRadius.circular(radius),
-                color: tTokenColorOf(widget.tokens, 'bgColorContainer'),
+                color: tTokenColorOf(tokens, 'bgColorContainer'),
               ),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  if (isAdd)
+                  if (file == null)
                     Center(
                       child: TIcon(
                         TIcons.add,
@@ -403,81 +376,109 @@ class _ImageCardState extends State<_ImageCard> {
                     )
                   else ...[
                     _thumbnail(file, muted),
-                    if (file.status == TUploadFileStatus.progress ||
-                        file.status == TUploadFileStatus.fail)
-                      ColoredBox(
-                        color: const Color(0x99000000),
-                        child: Center(
-                          child: file.status == TUploadFileStatus.fail
-                              ? TIcon(
-                                  TIcons.error_circle_filled,
-                                  color: fail,
-                                  size: TIconSizes.medium,
-                                )
-                              : Text(
-                                  file.percent == null
-                                      ? '上传中'
-                                      : '${file.percent!.round()}%',
-                                  style: const TextStyle(
-                                    color: Color(0xFFFFFFFF),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    if (showHoverMask)
-                      ColoredBox(
-                        color: const Color(0x99000000),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (showBrowse)
-                              GestureDetector(
-                                onTap: widget.onPreview,
-                                child: const TIcon(
-                                  TIcons.browse,
-                                  color: Color(0xFFFFFFFF),
-                                  size: TIconSizes.medium,
-                                ),
-                              ),
-                            if (showBrowse && showDelete)
-                              const SizedBox(width: 16),
-                            if (showDelete)
-                              GestureDetector(
-                                onTap: widget.onRemove,
-                                child: const TIcon(
-                                  TIcons.delete,
-                                  color: Color(0xFFFFFFFF),
-                                  size: TIconSizes.medium,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                    if (_showsStatus(file)) _statusMask(file, fail),
+                    if (_showsHoverActions(file)) _hoverActions(file),
                   ],
                 ],
               ),
             ),
           ),
         ),
-        if (!isAdd) ...[
-          const SizedBox(height: 4),
-          SizedBox(
-            width: _kUploadImageCard,
-            child: Text(
-              file.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: muted),
-            ),
-          ),
-        ],
+        if (file != null) ...[const SizedBox(height: 4), _caption(file, muted)],
       ],
     );
   }
 
-  Widget _thumbnail(TUploadFile file, Color text) {
+  VoidCallback? _cardTap(TUploadFile? file) {
+    if (!widget.enabled) return null;
+    if (file == null) return widget.onAdd;
+    if (_showBrowse(file)) return widget.onPreview;
+    return null;
+  }
+
+  bool _showBrowse(TUploadFile file) =>
+      widget.onPreview != null && _canPreview(file);
+
+  bool _showDelete(TUploadFile file) => widget.onRemove != null;
+
+  bool _showsStatus(TUploadFile file) =>
+      file.status == TUploadFileStatus.progress ||
+      file.status == TUploadFileStatus.fail;
+
+  bool _showsHoverActions(TUploadFile file) {
+    if (!_hover || !widget.enabled) return false;
+    if (file.status == TUploadFileStatus.progress) return false;
+    return _showBrowse(file) || _showDelete(file);
+  }
+
+  Widget _statusMask(TUploadFile file, Color fail) {
+    final Widget child;
+    if (file.status == TUploadFileStatus.fail) {
+      child = TIcon(
+        TIcons.error_circle_filled,
+        color: fail,
+        size: TIconSizes.medium,
+      );
+    } else {
+      final percent = file.percent;
+      final label = percent == null ? '上传中' : '${percent.round()}%';
+      child = Text(
+        label,
+        style: const TextStyle(color: _kUploadMaskForeground, fontSize: 12),
+      );
+    }
+    return ColoredBox(
+      color: _kUploadMask,
+      child: Center(child: child),
+    );
+  }
+
+  Widget _hoverActions(TUploadFile file) {
+    final showBrowse = _showBrowse(file);
+    final showDelete = _showDelete(file);
+    return ColoredBox(
+      color: _kUploadMask,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (showBrowse)
+            GestureDetector(
+              onTap: widget.onPreview,
+              child: const TIcon(
+                TIcons.browse,
+                color: _kUploadMaskForeground,
+                size: TIconSizes.medium,
+              ),
+            ),
+          if (showBrowse && showDelete) const SizedBox(width: 16),
+          if (showDelete)
+            GestureDetector(
+              onTap: widget.onRemove,
+              child: const TIcon(
+                TIcons.delete,
+                color: _kUploadMaskForeground,
+                size: TIconSizes.medium,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _caption(TUploadFile file, Color color) {
+    return SizedBox(
+      width: _kUploadImageCard,
+      child: Text(
+        file.name,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 12, color: color),
+      ),
+    );
+  }
+
+  Widget _thumbnail(TUploadFile file, Color placeholderColor) {
     final provider = file.preview;
     if (provider != null) {
       return Image(image: provider, fit: BoxFit.contain);
@@ -487,19 +488,16 @@ class _ImageCardState extends State<_ImageCard> {
       return Image.network(
         url,
         fit: BoxFit.contain,
-        errorBuilder: (context, error, stack) => _imagePlaceholder(text),
+        errorBuilder: (context, error, stackTrace) =>
+            _imagePlaceholder(placeholderColor),
       );
     }
-    return _imagePlaceholder(text);
+    return _imagePlaceholder(placeholderColor);
   }
 
   Widget _imagePlaceholder(Color color) {
     return Center(
-      child: TIcon(
-        TIcons.image,
-        size: TIconSizes.uploadAdd,
-        color: color,
-      ),
+      child: TIcon(TIcons.image, size: TIconSizes.uploadAdd, color: color),
     );
   }
 }

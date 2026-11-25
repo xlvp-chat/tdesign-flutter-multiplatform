@@ -57,6 +57,13 @@ class _MessageBanner extends StatefulWidget {
 }
 
 class _MessageBannerState extends State<_MessageBanner> {
+  static const _styles = <TMessageTheme, (IconData, String)>{
+    TMessageTheme.info: (TIcons.info_circle_filled, 'brandColor7'),
+    TMessageTheme.success: (TIcons.check_circle_filled, 'successColor5'),
+    TMessageTheme.warning: (TIcons.error_circle_filled, 'warningColor5'),
+    TMessageTheme.error: (TIcons.error_circle_filled, 'errorColor'),
+  };
+
   Timer? _timer;
 
   @override
@@ -76,6 +83,7 @@ class _MessageBannerState extends State<_MessageBanner> {
   @override
   Widget build(BuildContext context) {
     final tokens = TDesignTokenScope.of(context);
+    final (icon, colorKey) = _styles[widget.theme]!;
     return Positioned(
       top: 16,
       left: 0,
@@ -92,7 +100,7 @@ class _MessageBannerState extends State<_MessageBanner> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TIcon(_icon, size: 20, color: _color(tokens)),
+                TIcon(icon, size: 20, color: tTokenColorOf(tokens, colorKey)),
                 const SizedBox(width: 8),
                 Text(
                   widget.content,
@@ -107,31 +115,5 @@ class _MessageBannerState extends State<_MessageBanner> {
         ),
       ),
     );
-  }
-
-  IconData get _icon {
-    switch (widget.theme) {
-      case TMessageTheme.info:
-        return TIcons.info_circle_filled;
-      case TMessageTheme.success:
-        return TIcons.check_circle_filled;
-      case TMessageTheme.warning:
-        return TIcons.error_circle_filled;
-      case TMessageTheme.error:
-        return TIcons.error_circle_filled;
-    }
-  }
-
-  Color _color(TDesignTokenSet tokens) {
-    switch (widget.theme) {
-      case TMessageTheme.info:
-        return tTokenColorOf(tokens, 'brandColor7');
-      case TMessageTheme.success:
-        return tTokenColorOf(tokens, 'successColor5');
-      case TMessageTheme.warning:
-        return tTokenColorOf(tokens, 'warningColor5');
-      case TMessageTheme.error:
-        return tTokenColorOf(tokens, 'errorColor');
-    }
   }
 }

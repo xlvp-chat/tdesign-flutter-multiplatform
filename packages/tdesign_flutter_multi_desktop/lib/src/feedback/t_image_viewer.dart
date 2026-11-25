@@ -3,6 +3,9 @@ import 'package:tdesign_flutter_icons/tdesign_flutter_icons.dart';
 
 import '../basic/t_icon.dart';
 
+const Color _kViewerScrim = Color(0xCC000000);
+const Color _kViewerForeground = Color(0xFFFFFFFF);
+
 /// Full-screen image preview. [index] is controlled by the caller.
 class TImageViewer extends StatefulWidget {
   const TImageViewer({
@@ -52,73 +55,82 @@ class _TImageViewerState extends State<TImageViewer> {
     }
   }
 
+  void _close() => widget.onVisibleChanged(false);
+
   @override
   Widget build(BuildContext context) {
     return OverlayPortal(
       controller: _controller,
-      overlayChildBuilder: (context) {
-        final index = widget.index.clamp(0, widget.images.length - 1);
-        return Stack(
-          children: [
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () => widget.onVisibleChanged(false),
-                child: const ColoredBox(color: Color(0xCC000000)),
-              ),
-            ),
-            Center(
-              child: Image(
-                image: widget.images[index],
-                fit: BoxFit.contain,
-              ),
-            ),
-            Positioned(
-              top: 16,
-              right: 16,
-              child: GestureDetector(
-                key: const ValueKey<String>('TImageViewer.close'),
-                onTap: () => widget.onVisibleChanged(false),
-                child: const TIcon(TIcons.close, color: Color(0xFFFFFFFF), size: 24),
-              ),
-            ),
-            if (index > 0)
-              Positioned(
-                left: 16,
-                top: 0,
-                bottom: 0,
-                child: Center(
-                  child: GestureDetector(
-                    key: const ValueKey<String>('TImageViewer.prev'),
-                    onTap: () => widget.onIndexChanged(index - 1),
-                    child: const TIcon(
-                      TIcons.chevron_left,
-                      color: Color(0xFFFFFFFF),
-                      size: 32,
-                    ),
-                  ),
-                ),
-              ),
-            if (index < widget.images.length - 1)
-              Positioned(
-                right: 16,
-                top: 0,
-                bottom: 0,
-                child: Center(
-                  child: GestureDetector(
-                    key: const ValueKey<String>('TImageViewer.next'),
-                    onTap: () => widget.onIndexChanged(index + 1),
-                    child: const TIcon(
-                      TIcons.chevron_right,
-                      color: Color(0xFFFFFFFF),
-                      size: 32,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        );
-      },
+      overlayChildBuilder: _buildOverlay,
       child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget _buildOverlay(BuildContext _) {
+    final images = widget.images;
+    final index = widget.index.clamp(0, images.length - 1);
+    return Stack(
+      children: [
+        Positioned.fill(child: _scrim()),
+        Center(
+          child: Image(image: images[index], fit: BoxFit.contain),
+        ),
+        _closeButton(),
+        if (index > 0)
+          _navButton(
+            atStart: true,
+            buttonKey: const ValueKey<String>('TImageViewer.prev'),
+            icon: TIcons.chevron_left,
+            onTap: () => widget.onIndexChanged(index - 1),
+          ),
+        if (index < images.length - 1)
+          _navButton(
+            atStart: false,
+            buttonKey: const ValueKey<String>('TImageViewer.next'),
+            icon: TIcons.chevron_right,
+            onTap: () => widget.onIndexChanged(index + 1),
+          ),
+      ],
+    );
+  }
+
+  Widget _scrim() {
+    return GestureDetector(
+      onTap: _close,
+      child: const ColoredBox(color: _kViewerScrim),
+    );
+  }
+
+  Widget _closeButton() {
+    return Positioned(
+      top: 16,
+      right: 16,
+      child: GestureDetector(
+        key: const ValueKey<String>('TImageViewer.close'),
+        onTap: _close,
+        child: const TIcon(TIcons.close, color: _kViewerForeground, size: 24),
+      ),
+    );
+  }
+
+  Widget _navButton({
+    required bool atStart,
+    required Key buttonKey,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Positioned(
+      left: atStart ? 16 : null,
+      right: atStart ? null : 16,
+      top: 0,
+      bottom: 0,
+      child: Center(
+        child: GestureDetector(
+          key: buttonKey,
+          onTap: onTap,
+          child: TIcon(icon, color: _kViewerForeground, size: 32),
+        ),
+      ),
     );
   }
 }

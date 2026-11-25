@@ -7,6 +7,7 @@ import '../basic/t_icon.dart';
 import '../basic/t_tag.dart';
 import '../token/t_token_color.dart';
 import '_popup_shell.dart';
+import '_text_field_chrome.dart';
 import 't_form.dart';
 import 't_input.dart';
 
@@ -599,14 +600,18 @@ class _TSelectState<T> extends State<TSelect<T>> {
       onActivate: disabled ? null : () => _choose(option),
       builder: (context, state) {
         final selected = _isSelected(option);
+        final Color background;
+        if (disabled) {
+          background = const Color(0x00000000);
+        } else if (state == TComponentState.hovered) {
+          background = tTokenColor(context, 'bgColorContainerHover');
+        } else if (selected) {
+          background = tTokenColor(context, 'brandColorLight');
+        } else {
+          background = const Color(0x00000000);
+        }
         return ColoredBox(
-          color: disabled
-              ? const Color(0x00000000)
-              : state == TComponentState.hovered
-              ? tTokenColor(context, 'bgColorContainerHover')
-              : selected
-              ? tTokenColor(context, 'brandColorLight')
-              : const Color(0x00000000),
+          color: background,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Text(
@@ -727,16 +732,16 @@ BoxDecoration _selectFieldChrome(
   required bool enabled,
   required bool error,
 }) {
-  return BoxDecoration(
-    color: enabled
-        ? tTokenColorOf(tokens, 'bgColorContainer')
-        : tTokenColorOf(tokens, 'bgColorComponentDisabled'),
-    borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
-    border: Border.all(
-      color: error
-          ? tTokenColorOf(tokens, 'errorColor6')
-          : tTokenColorOf(tokens, 'componentBorder'),
-    ),
+  final Color? borderColor;
+  if (error) {
+    borderColor = tTokenColorOf(tokens, 'errorColor6');
+  } else {
+    borderColor = null;
+  }
+  return tStaticFieldChrome(
+    tokens,
+    enabled: enabled,
+    borderColor: borderColor,
   );
 }
 

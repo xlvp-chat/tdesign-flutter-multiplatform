@@ -42,7 +42,12 @@ class TAvatar extends StatelessWidget {
     final radius = shape == TAvatarShape.circle ? edge / 2 : 4.0;
     Widget content;
     if (image != null) {
-      content = Image(image: image!, fit: BoxFit.cover, width: edge, height: edge);
+      content = Image(
+        image: image!,
+        fit: BoxFit.cover,
+        width: edge,
+        height: edge,
+      );
     } else if (icon != null) {
       content = IconTheme(
         data: IconThemeData(color: fg, size: edge * 0.55),
@@ -113,10 +118,7 @@ class TAvatarGroup extends StatelessWidget {
           if (hidden > 0)
             Positioned(
               left: visible.length * step,
-              child: TAvatar(
-                size: size,
-                child: Text('+$hidden'),
-              ),
+              child: TAvatar(size: size, child: Text('+$hidden')),
             ),
         ],
       ),
@@ -141,14 +143,23 @@ class TEmpty extends StatelessWidget {
   final TEmptyType type;
   final Widget? action;
 
+  static const _styles = <TEmptyType, (IconData, String)>{
+    TEmptyType.empty: (TIcons.image, 'textColorPlaceholder'),
+    TEmptyType.success: (TIcons.check_circle_filled, 'successColor5'),
+    TEmptyType.fail: (TIcons.error_circle_filled, 'errorColor'),
+    TEmptyType.networkError: (TIcons.info_circle_filled, 'warningColor5'),
+    TEmptyType.maintenance: (TIcons.info_circle, 'warningColor5'),
+  };
+
   @override
   Widget build(BuildContext context) {
     final muted = tTokenColor(context, 'textColorSecondary');
     final titleColor = tTokenColor(context, 'textColorPrimary');
+    final (icon, colorKey) = _styles[type]!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TIcon(_icon, size: 48, color: _color(context)),
+        TIcon(icon, size: 48, color: tTokenColor(context, colorKey)),
         if (title != null) ...[
           const SizedBox(height: 8),
           Text(title!, style: TextStyle(fontSize: 14, color: titleColor)),
@@ -160,34 +171,5 @@ class TEmpty extends StatelessWidget {
         if (action != null) ...[const SizedBox(height: 12), action!],
       ],
     );
-  }
-
-  IconData get _icon {
-    switch (type) {
-      case TEmptyType.empty:
-        return TIcons.image;
-      case TEmptyType.success:
-        return TIcons.check_circle_filled;
-      case TEmptyType.fail:
-        return TIcons.error_circle_filled;
-      case TEmptyType.networkError:
-        return TIcons.info_circle_filled;
-      case TEmptyType.maintenance:
-        return TIcons.info_circle;
-    }
-  }
-
-  Color _color(BuildContext context) {
-    switch (type) {
-      case TEmptyType.success:
-        return tTokenColor(context, 'successColor5');
-      case TEmptyType.fail:
-        return tTokenColor(context, 'errorColor');
-      case TEmptyType.networkError:
-      case TEmptyType.maintenance:
-        return tTokenColor(context, 'warningColor5');
-      case TEmptyType.empty:
-        return tTokenColor(context, 'textColorPlaceholder');
-    }
   }
 }

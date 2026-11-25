@@ -66,74 +66,104 @@ class _TDrawerState extends State<TDrawer> {
   Widget build(BuildContext context) {
     return OverlayPortal(
       controller: _controller,
-      overlayChildBuilder: (context) {
-        final tokens = TDesignTokenScope.of(context);
-        final panel = ColoredBox(
-          color: tTokenColorOf(tokens, 'bgColorContainer'),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-                child: Row(
-                  children: [
-                    Expanded(child: widget.header ?? const SizedBox.shrink()),
-                    GestureDetector(
-                      onTap: _close,
-                      child: TIcon(
-                        TIcons.close,
-                        color: tTokenColorOf(tokens, 'textColorSecondary'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  child: widget.body,
-                ),
-              ),
-            ],
-          ),
-        );
-        return CallbackShortcuts(
-          bindings: <ShortcutActivator, VoidCallback>{
-            const SingleActivator(LogicalKeyboardKey.escape): _close,
-          },
-          child: Focus(
-            autofocus: true,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: GestureDetector(
-                    onTap: _close,
-                    behavior: HitTestBehavior.opaque,
-                    child: ColoredBox(
-                      color: tTokenColorOf(tokens, 'maskActive'),
-                    ),
-                  ),
-                ),
-                _panelPosition(panel),
-              ],
-            ),
-          ),
-        );
-      },
+      overlayChildBuilder: _buildOverlay,
       child: const SizedBox.shrink(),
     );
   }
 
+  Widget _buildOverlay(BuildContext context) {
+    final tokens = TDesignTokenScope.of(context);
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.escape): _close,
+      },
+      child: Focus(
+        autofocus: true,
+        child: Stack(
+          children: [
+            Positioned.fill(child: _mask(tokens)),
+            _panelPosition(_panel(tokens)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _mask(TDesignTokenSet tokens) {
+    return GestureDetector(
+      onTap: _close,
+      behavior: HitTestBehavior.opaque,
+      child: ColoredBox(color: tTokenColorOf(tokens, 'maskActive')),
+    );
+  }
+
+  Widget _panel(TDesignTokenSet tokens) {
+    return ColoredBox(
+      color: tTokenColorOf(tokens, 'bgColorContainer'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+            child: Row(
+              children: [
+                Expanded(child: widget.header ?? const SizedBox.shrink()),
+                GestureDetector(
+                  onTap: _close,
+                  child: TIcon(
+                    TIcons.close,
+                    color: tTokenColorOf(tokens, 'textColorSecondary'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: widget.body,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _panelPosition(Widget panel) {
+    final size = widget.size;
     switch (widget.placement) {
       case TDrawerPlacement.left:
-        return Positioned(left: 0, top: 0, bottom: 0, width: widget.size, child: panel);
+        return Positioned(
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: size,
+          child: panel,
+        );
       case TDrawerPlacement.right:
-        return Positioned(right: 0, top: 0, bottom: 0, width: widget.size, child: panel);
+        return Positioned(
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: size,
+          child: panel,
+        );
       case TDrawerPlacement.top:
-        return Positioned(left: 0, right: 0, top: 0, height: widget.size, child: panel);
+        return Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          height: size,
+          child: panel,
+        );
       case TDrawerPlacement.bottom:
-        return Positioned(left: 0, right: 0, bottom: 0, height: widget.size, child: panel);
+        return Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: size,
+          child: panel,
+        );
     }
   }
 }

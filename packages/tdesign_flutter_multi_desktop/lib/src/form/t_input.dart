@@ -299,12 +299,10 @@ class _TInputState extends State<TInput> {
       onEnter: _onEnter,
       onExit: _onExit,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: tTextFieldFillColor(tokens, enabled: widget.enabled),
-          borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
-          border: Border.all(
-            color: _borderColor(tokens, focused: focused, status: status),
-          ),
+        decoration: tStaticFieldChrome(
+          tokens,
+          enabled: widget.enabled,
+          borderColor: _borderColor(tokens, focused: focused, status: status),
         ),
         child: SizedBox(
           height: _height,

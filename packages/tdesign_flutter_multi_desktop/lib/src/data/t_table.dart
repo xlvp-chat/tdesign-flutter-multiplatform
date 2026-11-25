@@ -443,11 +443,14 @@ class TTable<T> extends StatelessWidget {
         (left.isNotEmpty || right.isNotEmpty) &&
         fixedWidth < maxWidth;
     if (canPin) {
-      final anchor = left.isNotEmpty
-          ? left.first.id
-          : middle.isNotEmpty
-          ? middle.first.id
-          : right.first.id;
+      final String anchor;
+      if (left.isNotEmpty) {
+        anchor = left.first.id;
+      } else if (middle.isNotEmpty) {
+        anchor = middle.first.id;
+      } else {
+        anchor = right.first.id;
+      }
       final pinned = _PinnedLayout<T>(
         nodes: nodes,
         left: left,
@@ -824,9 +827,14 @@ class _HeaderCell<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final marker = sort?.columnId == column.id
-        ? (sort!.ascending ? ' ↑' : ' ↓')
-        : '';
+    final String marker;
+    if (sort?.columnId != column.id) {
+      marker = '';
+    } else if (sort!.ascending) {
+      marker = ' ↑';
+    } else {
+      marker = ' ↓';
+    }
     final canResize = table._columnResizable(column);
     final shell = _CellShell(
       width: table._resolvedWidth(column),
@@ -1014,11 +1022,14 @@ class _BodyRowState<T> extends State<_BodyRow<T>> {
     return TInteractiveRegion(
       onActivate: widget.onToggle,
       builder: (context, state) {
-        final background = widget.selected
-            ? _tableSelected(context)
-            : state == TComponentState.hovered
-            ? _tableHover(context)
-            : _tableRow(context);
+        final Color background;
+        if (widget.selected) {
+          background = _tableSelected(context);
+        } else if (state == TComponentState.hovered) {
+          background = _tableHover(context);
+        } else {
+          background = _tableRow(context);
+        }
         return ColoredBox(
           color: background,
           child: Row(

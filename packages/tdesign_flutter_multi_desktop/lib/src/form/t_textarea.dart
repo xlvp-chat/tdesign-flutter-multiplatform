@@ -72,16 +72,14 @@ class _TTextareaState extends State<TTextarea> {
       onEnter: (_) => _setHovered(true),
       onExit: (_) => _setHovered(false),
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: tTextFieldFillColor(tokens, enabled: widget.enabled),
-          borderRadius: BorderRadius.circular(tTokenRadius(tokens)),
-          border: Border.all(
-            color: tTextFieldBorderColor(
-              tokens,
-              enabled: widget.enabled,
-              focused: focused,
-              hovered: _hovered,
-            ),
+        decoration: tStaticFieldChrome(
+          tokens,
+          enabled: widget.enabled,
+          borderColor: tTextFieldBorderColor(
+            tokens,
+            enabled: widget.enabled,
+            focused: focused,
+            hovered: _hovered,
           ),
         ),
         child: Padding(

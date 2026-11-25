@@ -237,12 +237,16 @@ class TButton extends StatelessWidget {
             ),
           ),
         );
+        final double? buttonWidth;
+        if (_fixedWidth) {
+          buttonWidth = _extent;
+        } else if (block) {
+          buttonWidth = double.infinity;
+        } else {
+          buttonWidth = null;
+        }
         body = SizedBox(
-          width: _fixedWidth
-              ? _extent
-              : block
-              ? double.infinity
-              : null,
+          width: buttonWidth,
           height: _extent,
           child: body,
         );
